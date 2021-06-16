@@ -1,0 +1,66 @@
+SELECT * FROM department;
+
+SELECT dept_name FROM department;
+
+SELECT * FROM student, instructor;
+
+SELECT * FROM student 
+WHERE tot_cred < 100;
+
+SELECT * FROM student 
+WHERE tot_cred > 100;
+
+
+SELECT i.name, s.name
+FROM instructor AS i, student AS s;
+
+SELECT i.name, s.name
+FROM instructor AS i, student AS s
+WHERE i.salary < 70000 AND s.tot_cred > 100;
+
+SELECT * FROM department 
+WHERE dept_name LIKE '%i%';
+
+SELECT * FROM student
+WHERE name LIKE 'S%';
+
+SELECT * FROM student
+WHERE name LIKE '_h%';
+
+SELECT * FROM student
+ORDER BY tot_cred DESC;
+
+SELECT * FROM student
+ORDER BY tot_cred;
+
+SELECT name
+FROM instructor
+UNION 
+SELECT name
+FROM student;
+
+SELECT i.`name`
+FROM instructor AS i INNER JOIN student AS s ON i.`name` = s.`name`;
+
+SELECT i.`name`
+FROM instructor AS i LEFT JOIN student AS s ON i.`name` = s.`name`
+WHERE s.`name` IS NULL;
+
+SELECT * 
+FROM student, department;
+
+SELECT * 
+FROM student AS s, department AS d
+WHERE s.dept_name = d.dept_name;
+
+SELECT *
+FROM instructor AS i INNER JOIN department AS d
+ON i.dept_name = d.dept_name;
+
+SELECT i.name AS 교수, s.name AS 학생
+FROM instructor AS i LEFT JOIN student AS s
+ON i.dept_name = s.dept_name;
+
+SELECT i.name AS 교수, s.name AS 학생
+FROM instructor AS i RIGHT JOIN student AS s
+ON i.dept_name = s.dept_name;

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let musicPlayer = {
+            singer : '송민호',
+            songTitle : '도망가',
+            playingTime : '2분 25초',
+            play : function(cnt){
+                for(let i=0; i<cnt; i++)
+                    document.write(`${this.singer} : ${this.songTitle} => ${i+1} 번째 재생 <br>`);
+            }
+        };
+
+        musicPlayer.play(3);
+    </script>
+</head>
+<body>
+</body>
+</html>

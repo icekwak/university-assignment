@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>jquery 이벤트 - 이벤트 연결 메소드</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('h1').hover(function () {
+                $(this).css({
+                    background: 'red',
+                    color: 'white'
+                });
+                }, function () {
+                    $(this).css({
+                        background: '',
+                        color: ''
+                    });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Header-0</h1>
+    <h1>Header-1</h1>
+    <h1>Header-2</h1>
+</body> 
+</html>

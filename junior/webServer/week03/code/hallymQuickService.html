@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HallymQuickService</title>
+    <!-- css 파일 -->
+    <link rel="stylesheet" type="text/css" href="hallymQuickService.css"/>
+    <script>
+        // tabs 선택
+        function tabChange(tabNum){
+            var tabContent = document.getElementsByClassName("tabContent");
+            var size = tabContent[0].childElementCount;
+            var i = 0;
+            
+            // tabs 중에 선택한 tab의 tabContent 보여주기
+            for(i; i<size; i++){
+                 if(i+1 == tabNum){
+                    tabContent[0].children[i].classList.add("active");
+                    document.getElementById(tabContent[0].children[i].id).style.display = "block";
+                 }
+                 else{
+                    tabContent[0].children[i].classList.remove("active");
+                    document.getElementById(tabContent[0].children[i].id).style.display = "none";
+                 }
+            }
+        }
+
+        // tabContent 이미지 반전
+        function imgChange(quickNum){
+            var s = document.getElementsByClassName("active");
+            var d = s[0].getElementsByClassName("quick"+quickNum);
+
+            // 이미지 반전
+            if(d[0].children[0].style.display == "block"){
+                d[0].children[0].style.display = "none";
+                d[0].children[1].style.display = "block";
+                d[0].children[2].style.color = "white";
+            }
+            else{
+                d[0].children[0].style.display = "block";
+                d[0].children[1].style.display = "none";
+                d[0].children[2].style.color = "black";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="quickService">
+        <h3>Quick Service</h3>
+        <div class="tabs">
+            <ul>
+                <li><a href="#" onclick="tabChange(1)">재학생</a></li>
+                <li><a href="#" onclick="tabChange(2)">교수</a></li>
+            </ul>
+        </div>
+        <div class="tabContent">
+            <!-- 재학생 -->
+            <div id="student" class="active" style="display: block;">
+                <table>
+                    <tr>
+                        <td>
+                            <a class="quick1" onclick="imgChange(1)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:5dbe6dda-7236-4e67-a552-e6108ddc0973/quick-ico1.png" alt="통합정보시스템"/>
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:b002e03b-36b2-44b7-86b6-17f295e1028a/quick-ico1-hov.png" alt="통합정보시스템"/>
+                                <span>통합정보시스템</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick2" onclick="imgChange(2)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:b47f5bac-1acd-4f18-94b3-5afb59efcacf/quick-ico2.png" alt="SmartLEAD">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:bb842a48-4c5e-4635-b2e9-edf076cafe46/quick-ico2-hov.png" alt="SmartLEAD"/>
+                                <span>SmartLEAD</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick3" onclick="imgChange(3)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:6606b6a8-9b26-4b6b-987c-64eaf5d26bd9/quick-ico11.png" alt="셔틀버스">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:37329832-4a0a-484b-9026-9c68eb2d5300/quick-ico11-hov.png" alt="셔틀버스">
+                                <span>셔틀버스</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick4" onclick="imgChange(4)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:8e2409f1-5ab0-41c0-b640-b97d05d35e50/quick-ico14.png" alt="통학버스">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:bb1f4623-00d1-40c0-a692-8cba5941da1c/quick-ico14-hov.png" alt="통학버스">
+                                <span>통학버스</span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a class="quick5" onclick="imgChange(5)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:b39e4dfe-7f4f-49f0-8b41-ec5177ef1dee/quick-ico5.png" alt="일송기념도서관">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:69153b18-6be2-4572-8643-702f6cdfdabe/quick-ico5-hov.png" alt="일송기념도서관">
+                                <span>일송기념도서관</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick6" onclick="imgChange(6)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:2bbc0755-53c2-4567-8d95-b028aeeb7433/quick-ico6.png" alt="학생생활관">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:d87a757c-7690-4332-8d96-341c09dd993e/quick-ico6-hov.png" alt="학생생활관">
+                                <span>학생생활관</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick7" onclick="imgChange(7)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:740e8f2a-f4e8-4a2d-85ea-87e7dbab7339/quick-ico8.png" alt="현장실습지원센터">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:1aa99505-6a81-45f2-8677-6a328f3af830/quick-ico8-hov.png" alt="현장실습지원센터">
+                                <span>현장실습지원센터</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick8" onclick="imgChange(8)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:99f81262-801e-4f4f-86c0-bcc28c04856c/quick-ico9.png" alt="캠퍼스맵">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:9f407c6c-bc63-4114-80af-48c3388ea23c/quick-ico9-hov.png" alt="캠퍼스맵">
+                                <span>캠퍼스맵</span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <!-- 교수 -->
+            <div id="professor" class="" style="display: none;">
+                <table>
+                    <tr>
+                        <td>
+                            <a class="quick1" onclick="imgChange(1)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:5dbe6dda-7236-4e67-a552-e6108ddc0973/quick-ico1.png" alt="통합정보시스템"/>
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:b002e03b-36b2-44b7-86b6-17f295e1028a/quick-ico1-hov.png" alt="통합정보시스템"/>
+                                <span>통합정보시스템</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick2" onclick="imgChange(2)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:b47f5bac-1acd-4f18-94b3-5afb59efcacf/quick-ico2.png" alt="SmartLEAD">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:bb842a48-4c5e-4635-b2e9-edf076cafe46/quick-ico2-hov.png" alt="SmartLEAD"/>
+                                <span>SmartLEAD</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick3" onclick="imgChange(3)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:6606b6a8-9b26-4b6b-987c-64eaf5d26bd9/quick-ico11.png" alt="셔틀버스">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:37329832-4a0a-484b-9026-9c68eb2d5300/quick-ico11-hov.png" alt="셔틀버스">
+                                <span>셔틀버스</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick4" onclick="imgChange(4)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:9e600d8e-069c-4f2c-aab5-c2a9bffe7d6b/quick-ico25.png" alt="전자출결시스템">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:c7771218-ec28-4a0c-b411-d962b3dea9e5/quick-ico25-hov.png" alt="전자출결시스템">
+                                <span>전자출결시스템</span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a class="quick5" onclick="imgChange(5)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:3f0cbb61-447d-4935-8420-5261bd8c1ba5/quick-ico26.png" alt="한림그룹웨이">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:53682dcb-4902-49b2-8d59-e1f1f590f5aa/quick-ico26-hov.png" alt="한림그룹웨이">
+                                <span>한림그룹웨이</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick6" onclick="imgChange(6)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:9734f9f4-bf6d-44e5-a10e-1425416bfab7/quick-ico3.png" alt="채용시스템">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:f2d7f301-26f4-4239-9ef2-14d2cbbaeb99/quick-ico3-hov.png" alt="채용시스템">
+                                <span>채용시스템</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick7" onclick="imgChange(7)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:8b4317c1-fc17-409e-a0f6-f09909e3b445/quick-ico28.png" alt="행정부서/기관">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:d2d45346-9f5d-4baa-af14-2753eca561a6/quick-ico28-hov.png" alt="행정부서/기관">
+                                <span>행정부서/기관</span>
+                            </a>
+                        </td>
+                        <td>
+                            <a class="quick8" onclick="imgChange(8)" href="#">
+                                <img style="display: block;" src="https://www.hallym.ac.kr/dam/jcr:d333fd64-5be1-4ccf-8338-d1990e13d4bf/quick-ico29.png" alt="발전기금">
+                                <img style="display: none;" src="https://www.hallym.ac.kr/dam/jcr:4a7cd29b-2eda-446f-a78f-0161be28e955/quick-ico29-hov.png" alt="발전기금">
+                                <span>발전기금</span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

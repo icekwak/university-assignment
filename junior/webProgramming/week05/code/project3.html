@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>괄호 속 정답</title>
+    <style>
+        .position {
+            margin: 10px;
+            background-color: blanchedalmond;
+            width: 450px;
+            height: 250px;
+            position: relative;
+        }
+        .position p {
+            padding: 15px;
+        }
+        .position img {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            bottom: 0;
+            left: 200px;
+        }
+        .pseudo {
+            margin: 10px;
+            border: blue solid;
+            width: 450px;
+            height: 100px;
+            text-align: center;
+            color: lightseagreen;
+        }
+        .pseudo p {
+            margin: 10px;
+        }
+        .pseudo p span {
+            color: white;
+        }
+        .pseudo p span:hover {
+            color: red;
+        }
+        #id {
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>박스 모델</h1>
+    <div class="position">
+        <p>
+            박스모델 배경 꾸미기 입니다<br>
+            이미지 반복은 없으며<br>
+            이미지는 박스 아래쪽 가운데에 위치합니다
+        </p>
+        <img src="imgs/Chelsea FC.png" alt="Chelsea FC">
+    </div>
+    <div class="pseudo">
+        <p>
+            <label for="id">아이디</label>
+            <input type="text" id="id"><br>
+        </p>
+        <p>
+            질문 : 가상 클래스 선택자는 (<span> :콜론 </span>) 기호를 사용합니다 <br>
+            정답을 알려면 괄호안에 마우스를 가져 가세요<br>
+        </p>
+    </div>
+</body>
+</html>

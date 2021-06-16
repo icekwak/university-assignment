@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>주사위 합 계산하기</title>
+    <script>
+        let dice_count = function(n){
+            let dice1, dice2;
+            let sum = 0, count = 0;
+            for(let i = 0; i < 10; i++){
+                dice1 = Math.floor(Math.random() * 6) + 1;
+                dice2 = Math.floor(Math.random() * 6) + 1;
+                sum = dice1 + dice2;
+
+                if(sum == n){
+                    document.write(`${dice1} + ${dice2} = ${sum} <br>`);
+                    count++;
+                }
+            }
+            return count;
+        }
+        //이곳에 dice_play() 함수를 다음과 같은 방법으로 작성하고 결과를 제시하세요
+        //1) 함수 선언문 
+        function dice_play(n){
+            return dice_count(n);
+        }
+        //2) 함수 표현식 – 익명함수
+        let dice_play = function(n){
+            return dice_count(n);
+        };
+        //3) 화살표 함수
+        let dice_play = n => {
+            return dice_count(n);
+        }
+    </script>
+</head>
+<body>
+    <script>
+        document.write(`주사위 눈의 합이 8이 되는 횟수: ${dice_play(8)} <br>`);
+        document.write(`주사위 눈의 합이 6이 되는 횟수: ${dice_play(6)} <br>`);
+    </script>      
+</body>
+</html>

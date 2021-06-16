@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("p").css("background-color", "yellow");
+            $("p").addClass("pitem");
+        });
+
+        $(document).ready(function(){
+            $("p").addClass("pitem");
+            $(".pitem").css("background-color", "red");
+        });
+    </script>
+</head>
+<body>
+    <p>영역1</p>
+    <p>영역2</p>
+    <p>영역3</p>
+</body>
+</html>

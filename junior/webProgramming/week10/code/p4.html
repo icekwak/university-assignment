@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let suppliesList = new Array();
+        let tripSupplies;
+        let index;
+
+        // 조건 1, 조건 2
+        while(1){
+            tripSupplies = prompt(`준비물을 입력하세요.\n더 이상 없으면 '완료'를 입력하세요.`);
+            if(tripSupplies === '완료'){
+                alert(`여행 준비물 목록을 출력합니다.\n${suppliesList.join()}`);
+                break;
+            }
+            else
+                suppliesList.push(tripSupplies);
+        }
+
+        // 조건 3, 조건 4
+        while(1){
+            tripSupplies = prompt(`준비완료 한 물품을 입력하세요.\n더 이상 없으면 '완료'를 입력하세요.`);
+            if(tripSupplies === '완료'){
+                alert(`앞으로 준비해야 할 목록을 출력합니다.\n${suppliesList.join()}`);
+                break;
+            }
+            else{
+                index = suppliesList.indexOf(tripSupplies);
+                suppliesList.splice(index, 1);
+            }
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

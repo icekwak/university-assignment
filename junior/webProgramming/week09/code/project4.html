@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            margin-top: 10px;
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle">toggle</button><br>
+    <div class="box">
+        클로저
+    </div>
+    <script>
+        let box = document.querySelector('.box');
+        let toggleBtn = document.querySelector('.toggle');
+        let toggle = (function () {
+            let color = ['gray', 'lightblue', 'purple', 'lightsalmon'];
+            let index = 1;
+            return function () {
+                if(index == color.length)
+                    index = 0;
+                
+                box.style.backgroundColor=color[index];
+                index++;
+            }
+        })();
+
+        toggleBtn.onclick = toggle;
+    </script>
+</body>
+</html>

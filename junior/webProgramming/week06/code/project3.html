@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .main_menu{
+            background-color: darkblue;
+            padding: 0 10px;
+            line-height: 25px;
+        }
+        li{
+            list-style-type: none;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        .main_menu > li {
+            display: inline-block;
+            padding: 0 10px;
+        }
+        .main_menu > li:hover ul{
+            display: block;
+            position: absolute;
+        }
+        .detail_menu{
+            display: none;
+            background-color: lightskyblue;
+            top: 25px; 
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="main_menu">
+            <li>
+                <a href="#">대학소개</a>
+                <ul class="detail_menu">
+                    <li><a href="#">교육이념</a></li>
+                    <li><a href="#">대학상징</a></li>
+                    <li><a href="#">캠퍼스안내</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">전공</a>
+                <ul class="detail_menu">
+                    <li><a href="#">소프트웨어 융합 대학</a></li>
+                    <li><a href="#">나노 융합 스쿨</a></li>
+                    <li><a href="#">미래 융합 스쿨</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">대학생활</a>
+                <ul class="detail_menu">
+                    <li><a href="#">프로그램</a></li>
+                    <li><a href="#">장학제도</a></li>
+                    <li><a href="#">캘린터</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">학사지원</a>
+                <ul class="detail_menu">
+                    <li><a href="#">수업</a></li>
+                    <li><a href="#">등록</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</body>
+</html>

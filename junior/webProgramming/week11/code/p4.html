@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        let text, now;
+        let year, month, date, day, hours, minutes;
+        let hoursCheck;
+
+        window.onload = function(){
+            text = document.querySelector("h3");
+        }
+
+        function toDay(){
+            now = new Date();
+            year = now.getFullYear();
+            month = now.getMonth() + 1;
+            date = now.getDate();
+            day = now.getDay();
+            hours = now.getHours();
+            minutes = now.getMinutes();
+
+            switch(day){
+                case 0:
+                    day = "일요일";
+                    break;
+                case 1:
+                    day = "월요일";
+                    break;
+                case 2:
+                    day = "화요일";
+                    break;
+                case 3:
+                    day = "수요일";
+                    break;
+                case 4:
+                    day = "목요일";
+                    break;
+                case 5:
+                    day = "금요일";
+                    break;
+                case 5:
+                    day = "토요일";
+                    break;
+                default:
+                    day = "error";
+                    break;
+            }
+
+            if(hours >= 0 && hours < 12){
+                hoursCheck = "오전";
+            }
+            else{
+                hoursCheck = "오후";
+            }
+            
+            text.innerHTML = `${year} 년 ${month} 월 ${date} 일 ${day} ${hoursCheck} ${hours} 시 ${minutes}분`;
+        }
+
+        function fuDay(){
+            let n = prompt("며칠 후 입니까?");
+            
+            now = new Date();
+            now.setDate(now.getDate() + parseInt(n));
+            year = now.getFullYear();
+            month = now.getMonth() + 1;
+            date = now.getDate();
+
+            text.innerHTML = `${n}일 후의 날짜는 ${year}년 ${month} 월 ${date} 일`;
+        }
+    </script>
+</head>
+<body>
+    <h3>이곳에 결과를 출력합니다</h3>
+    <input type="button" value="현재 날짜 출력" onclick="toDay()" ><br><br>
+    <input type="button" value="n일 후의 날짜 출력" onclick="fuDay()" >
+</body>  
+</html>

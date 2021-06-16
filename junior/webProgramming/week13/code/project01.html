@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function(){
+            let h = document.querySelectorAll("h1");
+            let i = 0;
+
+            document.getElementById("tagN").addEventListener("click", function(event){
+                if(i === 3){
+                    i = 0;
+                }
+                
+                if(i === 0){
+                    h[i].style.color = "green";
+                    h[i+2].style.color = "black";
+                }
+                else{
+                    h[i].style.color = "green";
+                    h[i-1].style.color = "black";
+                }
+                i++;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>1) 문서 객체</h1>
+    <h1>2) 텍스트 노드</h1>
+    <h1>3) 요소 노드</h1>
+    <input type="button" id="tagN" value="색상 변경 하기">
+</body>  
+</html>

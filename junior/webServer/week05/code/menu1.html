@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menu1</title>
+    <style>
+        .menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .menu li {
+            border-style: solid;
+            margin: 20px 10px;
+            padding: 10px;
+            width: 30%;
+            color: lightskyblue;
+            cursor: pointer;
+        }
+        .menu li a {
+            text-decoration: none;
+            color: lightskyblue;
+        }
+        #color:hover {
+            background-color: lightskyblue;
+            transition: all 1s;
+        }
+        #color:hover a {
+            color: white;
+            transition: all 1s;
+        }
+        #xOffset:hover {
+            margin-left: 50px;
+            transition: all 1s;
+        }
+        #border:hover{
+            border-width: 10px;
+            transition: all 1s;
+        }
+        #size:hover{
+            height: 200px;
+            transition: all 1s;
+        }
+    </style>
+</head>
+<body>
+    <ul class="menu">
+        <li id="color"><a href="#">color change</a></li>
+        <li id="xOffset"><a href="#">x offset change</a></li>
+        <li id="border"><a href="#">border change</a></li>
+        <li id="size"><a href="#">size change</a></li>
+    </ul>
+</body>
+</html>

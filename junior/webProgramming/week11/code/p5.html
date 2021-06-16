@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>여행지</title>
+    <style>
+        a{ text-decoration: none; }
+        a:hover{ color: red; }
+        li{ list-style-type: none; color: red; }
+        li:nth-child(even){ color: green; }
+    </style>
+    <script>
+        function insert(){
+            while(1){
+                let trip = prompt("여행지를 입력하세요. 더 이상 없으면 'f'를 입력하세요");
+            
+                if(trip === 'f'){
+                    break;
+                }
+
+                let count = document.querySelectorAll("li");
+                const newElem = document.createElement("li");
+                const newText = document.createTextNode(`${count.length + 1}) ${trip}`);
+                
+                newElem.appendChild(newText);
+                document.querySelector("ul").appendChild(newElem);
+            }
+        }
+    </script>
+</head>
+<body>
+    <a href="javascript:insert()">이곳을 클릭하여 가고 싶은 여행지를 입력하세요</a>
+    <ul>희망하는 장소 입니다</ul>
+</body>
+</html>

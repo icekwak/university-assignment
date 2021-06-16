@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function Car(number, distance){
+            this.number = number;
+            this.distance = distance;
+            this.addMileage = function(dist){
+                this.distance += dist;
+                document.write(`차량번호 ${this.number}의 주행거리를 ${dist} 추가 <br>`);
+            };
+            this.toString = function(){
+                return `차량번호 : ${this.number}   주행거리 : ${this.distance} <br>`;
+            };
+        }
+
+        let car = new Car('11가1111', 5000);
+        document.write(car.toString());
+        car.addMileage(100);
+        document.write(car.toString());
+    </script>
+</head>
+<body>
+</body>
+</html>

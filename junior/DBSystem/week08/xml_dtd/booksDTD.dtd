@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- booksDTD.dtd -->
+<!ELEMENT book_list (book+)>
+<!ELEMENT book (title, author, publisher?)>
+
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT publisher (#PCDATA)>
+
+<!ATTLIST book page CDATA #REQUIRED>
+<!ATTLIST book price CDATA #IMPLIED>

@@ -1,0 +1,4 @@
+CREATE CLASS people (
+	ID		VARCHAR(8) PRIMARY KEY,
+	age	INT DEFAULT(0)
+);

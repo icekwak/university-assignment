@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Style_chage</title>
+    <script>
+        function style_chage(){
+            var span = document.getElementById("mySpan");
+            span.style.display = "block";
+            span.style.color = "green";
+            span.style.fontSize = "40px";
+            span.style.width = "6em";
+            span.style.border = "5px dotted magenta";
+            span.style.margin = "20px";
+        }
+    </script>
+</head>
+<body>
+    <h1>CSS 스타일 동적 변경</h1>
+    <hr/>
+    <p style="color:blue">
+        이것은
+        <span id="mySpan" style="color:red">문장입니다.</span>
+    </p>
+    <input type="button" value="스타일 변경" onclick="style_chage()"/>
+</body>
+</html>

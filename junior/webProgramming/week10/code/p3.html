@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function Account(holder, balance){
+            this.holder = holder;
+            this.balance = balance;
+        }
+        Account.prototype.deposit = function(price){
+            this.balance += price;
+            document.write(`<p> ${price} 예금 후 상태입니다. <br> ${this.display()} </p>`);
+        }
+        Account.prototype.withdraw = function(price){
+            document.write(`${price}을 인출하려고 합니다. <br>`);
+            if(this.balance < price)
+                document.write(`잔액 부족 : ${price - this.balance} <br>`);
+            else
+                this.balance -= price;
+        }
+        Account.prototype.display = function(){
+            return `예금주 : ${this.holder} <br> 현재 잔액 : ${this.balance} <br>`;
+        }
+
+        let account = new Account('Kwak', 100000);
+        document.write(`<p> 현재 상태입니다. <br> ${account.display()} </p>`);
+        account.deposit(30000);
+        account.withdraw(200000);
+    </script>
+</head>
+<body>
+</body>
+</html>

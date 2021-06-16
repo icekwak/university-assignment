@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book_list SYSTEM "booksDTD.dtd">
+
+<book_list>
+	<book page='408' price='16500'>
+		<title>공간이 만든 공간</title>
+		<author>유현준</author>
+		<publisher>을유문화사</publisher>
+	</book>
+	<book page='519' price='22000'>
+		<title>혼군,명군,폭군</title>
+		<author>강붕</author>
+		<publisher>왕의서재</publisher>
+	</book>
+	<book page='276' price='12500'>
+		<title>나는 건축가다</title>
+		<author>한노 라우테르베르크</author>
+		<publisher>현암사</publisher>
+	</book>
+	<book page='334' price='16000'>
+		<title>건축, 음악처럼 듣고 미술처럼 보다</title>
+		<author>서현</author>
+		<publisher>효형출판</publisher>
+	</book>
+	<book page='492' price='15000'>
+		<title>제3의물결</title>
+		<author>앨빈 토플러</author>
+		<publisher>범우사</publisher>
+	</book>
+</book_list>
