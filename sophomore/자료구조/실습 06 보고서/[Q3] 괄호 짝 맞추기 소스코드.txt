@@ -1,0 +1,121 @@
+(ArrayStack class)
+import java.util.EmptyStackException;
+public class ArrayStack <E> {
+	private E s[]; 		//스택을 위한 배열
+	private int top; 	//스택의 top 항목의 배열 원소 인덱스
+	
+	public ArrayStack() { //크기가 1인 배열 초기화 생성자
+		s = (E[]) new Object[1];
+		top = -1;
+	}
+	
+	public int size() { //항목 수 리턴
+		return top+1;
+	}
+	
+	public boolean isEmpty() { //empty이면 true리턴
+		return (top == -1);
+	}
+	
+	public E peek() { //top 항목 리턴
+		if(isEmpty())
+			throw new EmptyStackException();
+		return s[top];
+	}
+	
+	public void push(E newItem) { 	//push 연산
+		if(size() == s.length)
+			resize(2*s.length);		//크기 2배로 확장
+		s[++top] = newItem;			//새 항목 push
+	}
+	
+	public E pop() { //pop 연산
+		if(isEmpty())
+			throw new EmptyStackException();
+		E item = s[top];
+		s[top--] = null;
+		if(size() > 0 && size() == s.length/4)
+			resize(s.length/2); //크기 1/2로 축소
+		return item;
+	}
+	
+	private void resize(int newSize) { //배열크기 조절
+		Object[] t = new Object[newSize];	
+		for(int i=0; i<size(); i++)
+			t[i] = s[i];				
+		s =  (E[]) t;					
+	}
+	
+	public void print() { //출력
+		for(int i=0; i<s.length; i++) {
+			if(i < size())
+				System.out.printf(s[i] + "\t");
+			else System.out.printf("null\t");
+		}
+		System.out.println();
+	}
+	
+	public Boolean checkParentheses(String s) {	
+		ArrayStack<Character> st = new ArrayStack<Character>();
+		boolean bool = false;
+		
+		for(int i = 0; i < s.length(); i++) {
+			// 왼쪽 괄호 push
+			if((s.charAt(i) == '(') || (s.charAt(i) == '{') || (s.charAt(i) == '['))
+				st.push(s.charAt(i));
+			
+			// 짝이 맞으면 왼쪽 괄호 pop
+			else if((s.charAt(i) == ')') || (s.charAt(i) == '}') || (s.charAt(i) == ']')) {
+				if(st.size() != 0) { // 비교할 (왼쪽괄호)대상이 있을 때
+					if((st.peek() == '(') && (s.charAt(i) == ')')) {
+						st.pop();
+						bool = true;
+					}
+					else if((st.peek() == '{') && (s.charAt(i) == '}')) {
+						st.pop();
+						bool = true;
+					}
+					else if((st.peek() == '[') && (s.charAt(i) == ']')) {
+						st.pop();
+						bool = true;
+					}
+					else { // 짝이 안맞을 때
+						bool = false;
+						break;
+					}
+				}
+				else { // 비교할 (왼쪽괄호)대상이 없을 때
+					bool = false;
+					break;
+				}
+			}
+			
+			// 괄호가 아니면 다음 반복
+			else
+				continue;
+		}	
+		return bool;
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------
+(main3 class)
+public class main3 {
+	public static void main(String[] args) {
+		System.out.println("-- 괄호 짝이 맞으면 true, 안맞으면 false --");
+		System.out.println();
+		
+		//task 1
+		ArrayStack<Character> st1 = new ArrayStack<Character>();
+		String str1 = "(ant+bee)*crab+{[ant*food]+(offset)}/gas";
+		System.out.println(str1);
+		System.out.println("짝이 맞는가? " + st1.checkParentheses(str1));
+		System.out.println();
+		
+		//task 2
+		ArrayStack<Character> st2 = new ArrayStack<Character>();
+		String str2 = "(ant+bee)*crab+[ant*food]+(offset)}/gas";
+		System.out.println(str2);
+		System.out.println("짝이 맞는가? " + st2.checkParentheses(str2));
+	}
+}

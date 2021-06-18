@@ -1,0 +1,226 @@
+(Node class)
+public class Node <Key extends Comparable<Key>, Value> {
+	private Key id;
+	private Value name;
+	private Node left, right;
+	
+	public Node(Key newId, Value newName) { // 노드 생성자
+		id = newId;
+		name = newName;
+		left = right = null;
+	}
+	
+	// get과 set 메소드들
+	public Key getKey() {
+		return id;
+	}
+	public void setKey(Key newId) {
+		id = newId;
+	}
+	
+	public Value getValue() {
+		return name;
+	}
+	public void setValue(Value newName) {
+		name = newName;
+	}
+	
+	public Node getLeft() {
+		return left;
+	}
+	public void setLeft(Node newLeft) {
+		left = newLeft;
+	}
+	
+	public Node getRight() {
+		return right;
+	}
+	public void setRight(Node newRight) {
+		right = newRight;
+	}
+}
+
+-------------------------------------------------------------------------------------
+(BST class)
+import java.util.*;
+public class BST <Key extends Comparable<Key>, Value> {
+	public Node root;
+	
+	public Node getRoot() {
+		return root;
+	}
+	public void setRoot(Node newRoot) { // [Q4]setRoot
+		root = newRoot;
+	}
+	
+	public BST() { // [Q4]인자를 받지 않는 생성자
+		root = null;
+	} 
+	public BST(Key newId, Value newName) {
+		root = new Node(newId, newName);
+	}
+	
+	// get
+	public Value get(Key k) {
+		return get(root, k);
+	}
+	public Value get(Node n, Key k) {
+		if(n == null) // k를 발견 못함
+			return null;
+		
+		int t = n.getKey().compareTo(k);
+		if(t > 0) // if(K < 노드 n의 id) 왼쪽 서브트리 탐색
+			return get(n.getLeft(), k);
+		else if(t < 0) // if(K > 노드 n의 id) 오른쪽 서브트리 탐색
+			return get(n.getRight(), k);
+		else // k를 가진 노드 발견
+			return (Value)n.getValue();
+	}
+	
+	// put
+	public void put(Key k, Value v) {
+		root = put(root, k, v);
+	}
+	public Node put(Node n, Key k, Value v) {
+		if(n == null)
+			return new Node(k, v); // 삽입/추가 될 노드를 생성하고 리턴
+		
+		int t = n.getKey().compareTo(k);
+		if(t > 0) // if(K < 노드 n의 id) 왼쪽 서브트리 삽입
+			n.setLeft(put(n.getLeft(), k, v));
+		else if(t < 0) // if(K > 노드 n의 id) 오른쪽 서브트리 삽입
+			n.setRight(put(n.getRight(), k, v));
+		else // 노드 n의 name을 v로 갱신
+			n.setValue(v);
+		
+		return n;
+	}
+	
+	// min
+	public Key min() {
+		if(root == null)
+			return null;
+		
+		return (Key)min(root).getKey();
+	}
+	private Node min(Node n) {
+		if(n.getLeft() == null)
+			return n;
+		
+		return min(n.getLeft());
+	}
+	
+	// deleteMin
+	public void deleteMin() {
+		if(root == null)
+			System.out.println("empty 트리");
+		else
+			root = deleteMin(root);
+	}
+	private Node deleteMin(Node n) {
+		if(n.getLeft() == null) // if(n의 왼쪽 자식 == null) n의 오른쪽 자식 리턴
+			return n.getRight();
+		n.setLeft(deleteMin(n.getLeft())); // if(n의 오른쪽 자식 != null) n의 왼쪽 자식으로 재귀호출
+		
+		return n;
+	}
+	
+	// delete
+	public void delete(Key k) {
+		root = delete(root, k);
+	}
+	public Node delete(Node n, Key k) {
+		if(n == null)
+			return null;
+		
+		int t = n.getKey().compareTo(k);
+		if(t > 0) // if(k < 노드 n의 id) 왼쪽 자식으로 이동
+			n.setLeft(delete(n.getLeft(), k));
+		else if(t < 0) // if(k > 노드 n의 id) 오른쪽 자식으로 이동
+			n.setRight(delete(n.getRight(), k));
+		else { // 삭제할 노드 발견
+			if(n.getRight() == null)
+				return n.getLeft();
+			if(n.getLeft() == null)
+				return n.getRight();
+			
+			Node target = n;
+			n = min(target.getRight()); // 삭제할 노드 자리로 옮겨올 노드 찾아서 n이 가리키게 함
+			n.setRight(deleteMin(target.getRight()));
+			n.setLeft(target.getLeft());
+		}
+		return n;
+	}
+	
+	// [2] print
+	public void print() {
+		if(root != null)
+			print(root);
+		else
+			System.out.println("empty 트리");
+	}
+	public void print(Node n) { // 중위순회
+		if(n != null) {
+			print(n.getLeft()); // n의 왼쪽 서브트리 순회
+			System.out.print(n.getValue() + " "); // 노드n 방문
+			print(n.getRight()); // n의 오른쪽 서브트리 순회
+		}
+	}
+	
+	// checkBST
+	int index = 0;
+	public boolean checkBST() {
+		int[] arr = new int[size(root)]; // 트리 size 만큼 배열 생성
+		
+		checkBST(root, arr);
+		
+		for(int i=0; i < size(root)-1; i++) { // 이진탐색트리 검사
+			if(arr[i] > arr[i+1]) // 정렬된 값이 오름차순이 아니면
+				return false;
+		}
+		return true;
+	}
+	public void checkBST(Node n, int[] arr) {
+		if(n != null) { // 중위순회 활용
+			checkBST(n.getLeft(),arr);
+			arr[index++] = (int)n.getKey(); // 배열에 중위순회로 인해 정렬된 key값 저장
+			checkBST(n.getRight(), arr);
+		}
+	}
+	public int size(Node n) { // size
+		if(n == null)
+			return 0;
+		else
+			return (1 + size(n.getLeft()) + size(n.getRight()));
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+(checkBSTMain class)
+public class checkBSTMain {
+	public static void main(String[] args) {
+		// [Task 1]
+		BST<Integer, Integer> bst4 = new BST<Integer, Integer>();
+		Node bst4_60 = new Node(60,60);	Node bst4_80 = new Node(80,80);
+		Node bst4_10 = new Node(10,10);	Node bst4_30 = new Node(30,30);
+		Node bst4_25 = new Node(25,25);	Node bst4_75 = new Node(75,75);
+		Node bst4_50 = new Node(50,50);
+		bst4_75.setLeft(bst4_60);		bst4_75.setRight(bst4_80);
+		bst4_25.setLeft(bst4_10);		bst4_25.setRight(bst4_30);
+		bst4_50.setLeft(bst4_25);		bst4_50.setRight(bst4_75);
+		bst4.setRoot(bst4_50);			bst4.print();
+		System.out.print(" >> 이진 탐색 트리인가? " + bst4.checkBST() + "\n");
+		
+		// [Task 2]
+		BST<Integer, Integer> bst5 = new BST<Integer, Integer>();
+		Node bst5_80 = new Node(80,80);	Node bst5_60 = new Node(60,60);
+		Node bst5_10 = new Node(10,10);	Node bst5_30 = new Node(30,30);
+		Node bst5_25 = new Node(25,25);	Node bst5_75 = new Node(75,75);
+		Node bst5_50 = new Node(50,50);
+		bst5_75.setLeft(bst5_80);		bst5_75.setRight(bst5_60);
+		bst5_25.setLeft(bst5_10);		bst5_25.setRight(bst5_30);
+		bst5_50.setLeft(bst5_25);		bst5_50.setRight(bst5_75);
+		bst5.setRoot(bst5_50);			bst5.print();
+		System.out.print(" >> 이진 탐색 트리인가? " + bst5.checkBST() + "\n");
+	}
+}

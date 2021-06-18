@@ -1,0 +1,237 @@
+(GenData class)
+import java.util.*;
+public class GenData {
+	public Comparable[] getRandIntArr(int N, int min, int max) {
+		Comparable[] arr = new Comparable[N];
+		Random rand = new Random();
+		
+		if(N < 2) { // N이 2보다 작으면 빈 배열 리턴
+			System.out.println("N이 2보다 작은 값이 입력됨.");
+			return arr;
+		}
+		
+		for(int i = 0; i < N; i++)
+			arr[i] = (rand.nextInt(max) + min); // min <= arr[i] <= max
+		
+		return arr;
+	}
+}
+
+------------------------------------------------------------------------------------------------------
+(TimeTest class)
+public class TimeTest {
+	public static void main(String[] args) {
+		GenData gd = new GenData();
+		int N = 25000;
+		Comparable[] arr = gd.getRandIntArr(N, 0, N);
+		long beforeTime, afterTime;
+		
+		// Bubble Sort
+		Comparable[] arr1 = arr.clone();
+		int[] arr1_in = change(arr1); // Comparable -> Integer 변환
+		beforeTime = System.currentTimeMillis();
+		BubbleSort.doSort(arr1_in);
+		afterTime = System.currentTimeMillis();
+		System.out.print("[Bubble]");
+		TimeDiffPrint(beforeTime, afterTime);
+		
+		// Selection Sort
+		Comparable[] arr2 = arr.clone();
+		beforeTime = System.currentTimeMillis();
+		Selection.sort(arr2);
+		afterTime = System.currentTimeMillis();
+		System.out.print("[Selection]");
+		TimeDiffPrint(beforeTime, afterTime);
+		
+		// Insertion Sort
+		Comparable[] arr3 = arr.clone();
+		beforeTime = System.currentTimeMillis();
+		Insertion.sort(arr3);
+		afterTime = System.currentTimeMillis();
+		System.out.print("[Insertion]");
+		TimeDiffPrint(beforeTime, afterTime);
+		
+		// Merge Sort
+		Comparable[] arr4 = arr.clone();
+		beforeTime = System.currentTimeMillis();
+		Merge.sort(arr4);
+		afterTime = System.currentTimeMillis();
+		System.out.print("[Merge]");
+		TimeDiffPrint(beforeTime, afterTime);
+		
+		// Quick Sort
+		Comparable[] arr5 = arr.clone();
+		beforeTime = System.currentTimeMillis();
+		Quick.sort(arr5);
+		afterTime = System.currentTimeMillis();
+		System.out.print("[Quick]");
+		TimeDiffPrint(beforeTime, afterTime);
+	}
+	
+	public static int[] change(Comparable[] a) { // Comparable -> Integer 변환
+		int[] arr = new int[a.length];
+		for(int i = 0; i < a.length; i++)
+			arr[i] = (int) a[i];
+		return arr;
+	}
+	
+	public static void TimeDiffPrint(long bt, long at) { // 수행시간 출력
+		long diffTimeMilliSecond = 0;
+		diffTimeMilliSecond = at - bt;
+		System.out.print(" Time diff (ms): " + diffTimeMilliSecond + "\n");
+	}
+}
+
+-------------------------------------------------------------------------------------------------------
+(BubbleSort class)
+public class BubbleSort {
+	public static int[] doSort(int[] arr) {
+		int temp = 0;
+		for(int end = arr.length-1; end > 0; end--) {
+			for(int i = 0; i < end; i++) {
+				if(arr[i] > arr[i+1]) {
+					temp = arr[i];
+					arr[i] = arr[i+1];
+					arr[i+1] = temp;
+				}
+			}
+		}
+		return arr;
+	}
+}
+-------------------------------------------------------------------------------------------------------
+(Selection class)
+import java.lang.Comparable;
+public class Selection {
+	public static void sort(Comparable[] a) {
+		int N = a.length;
+		for(int i = 0; i < N; i++) {
+			int min = i;
+			for(int j = i+1; j < N; j++) { // min 찾기
+				if(isless(a[j], a[min]))
+					min = j;
+			}
+			swap(a, i, min); // min과 a[i]의 교환
+		}
+	}
+	
+	private static boolean isless(Comparable i, Comparable j) { // 키 비교
+		return (i.compareTo(j) < 0);
+	}
+	
+	private static void swap(Comparable[] a, int i, int j) { // 원소 교환
+		Comparable temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+}
+
+-------------------------------------------------------------------------------------------------------
+(Insertion class)
+import java.lang.Comparable;
+public class Insertion {
+	public static void sort(Comparable[] a) {
+		int N = a.length;
+		for(int i = 1; i < N; i++) { // i는 현재 원소의 인덱스
+			for(int j = i; j > 0; j--) { // 현재 원소를 정렬된 앞부분에 삽입
+				if(isless(a[j], a[j-1]))
+					swap(a,j,j-1);
+				else
+					break;
+			}
+		}
+	}
+	
+	private static boolean isless(Comparable i, Comparable j) { // 키 비교
+		return (i.compareTo(j) < 0);
+	}
+	
+	private static void swap(Comparable[] a, int i, int j) { // 원소 교환
+		Comparable temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+}
+
+-------------------------------------------------------------------------------------------------------
+(Merge class)
+import java.lang.Comparable;
+public class Merge {
+	public static void sort(Comparable[] a) {
+		Comparable[] b = new Comparable[a.length];
+		sort(a, b, 0, a.length-1);
+	}
+	
+	private static void merge(Comparable[] a, Comparable[] b, int low, int mid, int high) {
+		int i = low, j = mid+1;
+		for(int k = low; k <= high; k++) { // 배열 a의 앞부분과 뒷부분을 합병하여 보조배열 b에 저장
+			if(i > mid)
+				b[k] = a[j++]; // 앞부분이 먼저 소진된 경우
+			else if(j > high)
+				b[k] = a[i++]; // 뒷부분이 먼저 소진된 경우
+			else if(isless(a[j],a[i]))
+				b[k] = a[j++]; // a[j]가 더 작으니까 b[k]로 이동
+			else
+				b[k] = a[i++]; // a[i]가 더 작으니까 b[k]로 이동
+		}
+		for(int k = low; k <= high; k++)
+			a[k] = b[k]; // 보조배열 b를 배열 a에 복사
+	}
+	
+	private static void sort(Comparable[] a, Comparable[] b, int low, int high) {
+		if(high <= low)
+			return;
+		int mid = low + (high - low) / 2;
+		sort(a, b, low, mid);			// 앞부분 재귀호출
+		sort(a, b, mid+1, high);		// 뒷부분 재귀호출
+		merge(a, b, low, mid, high);	// 합병 수행
+	}
+	
+	public static boolean isless(Comparable v, Comparable w) {
+		return (v.compareTo(w) < 0);
+	}
+}
+
+-------------------------------------------------------------------------------------------------------
+(Quick class)
+import java.lang.Comparable;
+public class Quick {
+	public static void sort(Comparable[] a) {
+		sort(a, 0, a.length-1);
+	}
+	
+	private static void sort(Comparable[] a, int low, int high) {
+		if(high <= low)
+			return;
+		int j = partition(a, low, high);
+		sort(a, low, j-1);	// 피벗보다 작은 부분을 재귀호출
+		sort(a, j+1, high);	// 피벗보다 큰 부분을 재귀호출
+	}
+	
+	private static int partition(Comparable[] a, int pivot, int high) {
+		int i = pivot + 1;
+		int j =high;
+		Comparable p = a[pivot];
+		while(true) {
+			while(i <= high && !isless(p,a[i]))
+				i++; // 피벗과 같거나 작으면 i++
+			while(j >= pivot && isless(p,a[j]))
+				j--; // 피벗보다 크면 j--
+			if(i >= j)
+				break; // i와 j가 교차되면 루프 나가기
+			swap(a,i,j);
+		}
+		swap(a,pivot,j); // 피벗과 a[j] 교환
+		return j; // a[j]의 피벗이 "영원히" 자리 잡은 곳
+	}
+	
+	private static boolean isless(Comparable i, Comparable j) { // 키 비교
+		return (i.compareTo(j) < 0);
+	}
+	
+	private static void swap(Comparable[] a, int i, int j) { // 원소 교환
+		Comparable temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+}

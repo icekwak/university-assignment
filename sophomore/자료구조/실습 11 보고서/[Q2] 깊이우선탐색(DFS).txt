@@ -1,0 +1,68 @@
+(Edge class)
+public class Edge {
+	int adjvertex; // 간선의 다른 쪽 정점
+	
+	public Edge(int v) { // 생성자
+		adjvertex = v;
+	}
+}
+
+--------------------------------------------------------------------
+(DFS class)
+import java.util.List;
+public class DFS {
+	int N; // 그래프 정점 수
+	List<Edge>[] graph;
+	private boolean[] visited; // DFS 수행 중 방문한 정점을 true로 만든다.
+	
+	public DFS(List<Edge>[] adjList) { // 생성자
+		N = adjList.length;
+		graph = adjList;
+		visited = new boolean[N];
+		
+		for(int i = 0; i < N; i++)
+			visited[i] = false; // 배열 초기화
+		
+		for(int i = 0; i < N; i++) {
+			if(!visited[i])
+				dfs(i);
+		}
+	}
+	
+	private void dfs(int i) {
+		visited[i] = true;			  // 정점 i가 방문되어 visited[i]를 true로 만든다.
+		System.out.print(i+" ");	  // 정점 i가 방문되었음을 출력한다.
+		
+		for(Edge e : graph[i]) {	  // 정점 i에 인접한 각 정점에 대해
+			if(!visited[e.adjvertex]) // 정점  i에 인접한 정점이 방문 안되었으면 재귀호출
+				dfs(e.adjvertex);
+		}
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+(Q2Test class)
+import java.util.*;
+public class Q2Test {
+	public static void main(String[] args) {
+		int N = 10; // 정점 수
+		List<Edge>[] adjList = new List[N];
+		
+		for(int i = 0; i < N; i++)
+			adjList[i] = new LinkedList<>();
+		
+		adjList[0].add(new Edge(2));	adjList[0].add(new Edge(1));
+		adjList[1].add(new Edge(3));	adjList[1].add(new Edge(0));
+		adjList[2].add(new Edge(3));	adjList[2].add(new Edge(0));
+		adjList[3].add(new Edge(9));	adjList[3].add(new Edge(8));
+		adjList[3].add(new Edge(2));	adjList[3].add(new Edge(1));
+		adjList[4].add(new Edge(5));	adjList[5].add(new Edge(7));
+		adjList[5].add(new Edge(6));	adjList[5].add(new Edge(4));
+		adjList[6].add(new Edge(7));	adjList[6].add(new Edge(5));
+		adjList[7].add(new Edge(6));	adjList[7].add(new Edge(5));
+		adjList[8].add(new Edge(3));	adjList[9].add(new Edge(3));
+		
+		System.out.println("DFS 방문 순서:");
+		DFS dfs = new DFS(adjList);
+	}
+}

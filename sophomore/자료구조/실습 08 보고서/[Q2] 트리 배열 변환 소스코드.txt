@@ -1,0 +1,203 @@
+(Node class)
+public class Node <Key extends Comparable <Key>> {
+	private Key item;
+	private Node<Key> left;
+	private Node<Key> right;
+	
+	public Node(Key newItem, Node lt, Node rt) {
+		item = newItem;
+		left = lt;
+		right = rt;
+	}
+	
+	public Key getKey() {
+		return item;
+	}
+	public void setKey(Key newItem) {
+		item = newItem;
+	}
+	
+	public Node<Key> getLeft(){
+		return left;
+	}
+	public void setLeft(Node<Key> lt) {
+		left = lt;
+	}
+	
+	public Node<Key> getRight(){
+		return right;
+	}
+	public void setRight(Node<Key> lr) {
+		right = lr;
+	}
+}
+
+------------------------------------------------------------------------------
+(BinaryTree class)
+import java.util.*;
+public class BinaryTree <Key extends Comparable <Key>> {
+	private Node root;
+	
+	public BinaryTree() {
+		root = null;
+	}
+	
+	public Node getRoot() {
+		return root;
+	}
+	public void setRoot(Node newRoot) {
+		root = newRoot;
+	}
+	
+	public boolean isEmpty() {
+		return root == null;
+	}
+	
+	public void preorder(Node n) { // 전위순회
+		if(n != null) {
+			System.out.print(n.getKey() + " "); // 노드n 방문
+			preorder(n.getLeft()); // n의 왼쪽 서브트리 순회
+			preorder(n.getRight()); // n의 오른쪽 서브트리 순회
+		}
+	}
+	
+	public void inorder(Node n) { // 중위순회
+		if(n != null) {
+			inorder(n.getLeft()); // n의 왼쪽 서브트리 순회
+			System.out.print(n.getKey() + " "); // 노드n 방문
+			inorder(n.getRight()); // n의 오른쪽 서브트리 순회
+		}
+	}
+	
+	public void postorder(Node n) { // 후위순회
+		if(n != null) {
+			postorder(n.getLeft()); // n의 왼쪽 서브트리 순회
+			postorder(n.getRight()); // n의 오른쪽 서브트리 순회
+			System.out.print(n.getKey() + " "); // 노드n 방문
+		}
+	}
+	
+	public void levelorder(Node root) { // 레벨순회
+		Queue<Node> q = new LinkedList<Node>(); // 큐 자료구조 이용
+		Node t;
+		q.add(root); // 루트 노드 큐에 삽입
+		while(!q.isEmpty()) {
+			t = q.remove(); // 큐에서 가장 앞에 있는 노드 제거
+			System.out.print(t.getKey() + " "); // 제거된 노드 출력(방문)
+			if(t.getLeft() != null) // 제거된 왼쪽 자식이 null이 아니면
+				q.add(t.getLeft()); // 큐에 왼쪽 자식 삽입
+			if(t.getRight() != null) // 제거된 오른쪽 자식이 null이 아니면
+				q.add(t.getRight()); // 큐에 오른쪽 자식 삽입
+		}
+	}
+	
+	public int size(Node n) { // n를 루트로하는 (서브)트리에 있는 노드 수
+		if(n == null)
+			return 0; // null이면 0리턴
+		else
+			return (1 + size(n.getLeft()) + size(n.getRight()));
+	}
+	
+	public int height(Node n) { //n를 루트로하는 (서브)트리의 높이
+		if(n == null)
+			return 0; // null이면 0리턴
+		else
+			return (1 + Math.max(height(n.getLeft()), height(n.getRight())));
+	}
+	
+	public static boolean isEqual(Node n, Node m) { // 두 트리의 동일성 검사
+		if(n == null || m == null) // 둘 중에 하나라도 null이면
+			return n == m; // 둘 다 null이면 true, 아니면 false
+		if(n.getKey().compareTo(m.getKey()) != 0) // 둘 다 null이 아니면 item 비교
+			return false;
+		
+		return (isEqual(n.getLeft(), m.getLeft()) && // item이 같으면 왼쪽 자식 재귀호출
+				isEqual(n.getRight(), m.getRight())); // 오른쪽 자식 재귀호출
+	}
+	
+	public int[] btree2intarr() { // 트리 => 배열
+		int[] arr = new int[size(root) + 1]; // 인덱스 0번은 사용하지 않아서 +1
+		int i = 1;
+		
+		Queue<Node> q = new LinkedList<Node>(); // 큐 자료구조 이용
+		Node r;
+		q.add(root);
+		while(!q.isEmpty()) {
+			r = q.remove(); 
+			arr[i] = (int)r.getKey();  // 배열에 저장
+			i++; // i => 1씩 증가
+			if(r.getLeft() != null) 
+				q.add(r.getLeft()); 
+			if(r.getRight() != null)
+				q.add(r.getRight());
+		}
+		return arr;
+	}
+	
+	public void arrPrint(int[] arr) { // 배열 출력
+		for(int i = 1; i < arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+		System.out.println();
+	}
+	
+	public void intarr2btree(int[] arr) { // 배열 => 트리
+		root = null; // 모든 노드 삭제
+		
+		Queue<Node> q = new LinkedList<Node>(); // 큐 자료구조 이용
+		Node r = new Node(arr[1],null,null); // 루트노드 생성
+		root = r; // root설정
+		
+		Node t;
+		Node lt = null; // 왼쪽 자식노드
+		Node rt = null; // 오른쪽 자식노드
+		
+		q.add(r); // 루트 노드 큐에 삽입
+		for(int i =1; i<arr.length;i++) {
+			if(!q.isEmpty()) {
+				t = q.remove();
+				
+				if(i*2 > arr.length-1) 
+					continue; //  // 인덱스 범위를 벗어날 경우
+				lt = new Node(arr[i*2],null,null);
+				t.setLeft(lt);
+				q.add(t.getLeft());
+				
+				if(i*2+1 > arr.length-1)
+					continue; // 인덱스 범위를 벗어날 경우
+				rt = new Node(arr[i*2+1],null,null);
+				t.setRight(rt);
+				q.add(t.getRight());
+				
+			}
+		}
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------------------------
+(ChangeTest class)
+public class ChangeTest {
+	public static void main(String[] args) {
+		// t1 트리 구성
+		BinaryTree<Integer> t1 = new BinaryTree<Integer>();
+		Node<Integer> eight1 = new Node<Integer>(800,null,null);
+		Node<Integer> four1 = new Node<Integer>(400,eight1,null);
+		Node<Integer> five1 = new Node<Integer>(500,null,null);
+		Node<Integer> two1 = new Node<Integer>(200,four1,five1);
+		Node<Integer> six1 = new Node<Integer>(600,null,null);
+		Node<Integer> seven1 = new Node<Integer>(700,null,null);
+		Node<Integer> three1 = new Node<Integer>(300,six1,seven1);
+		Node<Integer> one1 = new Node<Integer>(100,two1,three1);
+		t1.setRoot(one1); // 루트노드 설정
+
+		// 트리 => 배열
+		System.out.println("(트리 => 배열)");
+		t1.arrPrint(t1.btree2intarr());
+		
+		// 배열 => 트리
+		BinaryTree<Integer> tNew = new BinaryTree<Integer>();
+		System.out.println("(배열 => 트리)\n[레벨순회]");
+		tNew.intarr2btree(t1.btree2intarr());
+		tNew.levelorder(tNew.getRoot());
+	}
+}

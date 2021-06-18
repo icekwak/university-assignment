@@ -1,0 +1,32 @@
+import java.util.Scanner;
+public class TeamInput {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter a nember: ");
+		String input = sc.next();
+		System.out.printf("You entered: %d\n", Integer.parseInt(input));
+		sc.close();
+		
+		int[] arr = new int[100];
+		for(int i=0; i<arr.length; i++) {
+			arr[i] = i+1;
+		}
+		
+		int sum = 0;
+		int cnt = 1;
+		outerLoop :
+		for(int i=0; i<arr.length-2; i++) {
+			for(int j=i+1; j<arr.length-1; j++) {
+				if(arr[i] + arr[cnt] + arr[j+1] == Integer.parseInt(input)) {
+					sum = arr[i] + arr[cnt] + arr[j+1];
+					System.out.println(arr[i] +" "+ arr[cnt] +" "+ arr[j+1] +" = " + sum);
+					break outerLoop;
+				}
+				else if(j == arr.length-2) {
+					cnt++;
+				}
+			}
+		}
+		
+	}
+}

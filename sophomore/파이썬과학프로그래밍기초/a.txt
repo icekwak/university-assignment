@@ -1,0 +1,70 @@
+import numpy as np
+
+def isNumber(x):
+  if type(x) == int or type(x) == float:
+    return True
+  elif type(x) == list or type(x) == tuple:
+    temp = [isNumber(i) for i in x]
+    return True if all(temp) else False
+  else:
+    return False
+
+def ltall(x):
+  lt = x.copy()
+  x.pop(0)
+  lt.pop()
+  return lt == x
+  
+def ltall2(x):
+  if len(x) % 2 != 0:
+    x.insert(0,lt[0])
+  lt = x.copy()
+  lt.reverse()
+  return lt == x
+  
+def lt_shape(x):
+  row = len(x)
+  temp = []
+  for i in range(len(x)):
+    temp.append(len(x[i]))
+  if ltall2(temp) == True:
+    col = temp[0]
+    return (row,col)
+  else:
+    print("Error")
+    return False
+
+def lt_Trans(x):
+  row,col = lt_shape(x)
+  lt = []
+  for i in range(col): #3
+    temp = []
+    for j in range(row): #2
+      temp.append(x[j][i])
+    lt.append(temp)
+  return lt
+
+def lt_mul(x,y):
+  lt = [x[i]*y[i] for i in range(len(x))]
+  return lt
+
+def lt_dot(x,y):
+  if lt_shape(x)[1] != lt_shape(y)[0]:
+    print("shape Error")
+    return False
+  if isNumber(x) == False or isNumber(y) == False:
+    print("isNumber Error")
+    return False
+  lt = []
+  row = lt_shape(x)[0] #2
+  col = lt_shape(y)[1] #1
+  for i in x:
+    temp = []
+    for j in lt_Trans(y):
+      temp.append(sum(lt_mul(i,j)))
+    lt.append(temp)
+  return lt
+  
+lt1 = [[1,2],[3,4]] 
+lt2 = [[5],[6]] 
+print(lt_dot(lt1,lt2)) #[[17], [39]]

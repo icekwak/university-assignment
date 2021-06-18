@@ -1,0 +1,36 @@
+(GenData class)
+import java.util.*;
+public class GenData {
+	public int[] getRandIntArr(int N, int min, int max) {
+		int[] arr = new int[N];
+		Random rand = new Random();
+		if(N < 2) { // N이 2보다 작으면 빈 배열 리턴
+			System.out.println("N이 2보다 작은 값이 입력됨.");
+			return arr;
+		}
+		for(int i = 0; i < N; i++)
+			arr[i] = (rand.nextInt(max) + min); // min <= arr[i] <= max
+		return arr;
+	}
+}
+
+-----------------------------------------------------------------------------------------------------------
+(GenDataTest class)
+public class GenDataTest {
+	public static void main(String[] args) {
+		GenData gd = new GenData();
+		
+		// Task1
+		int[] task1 = gd.getRandIntArr( 5, 0, 10);
+		System.out.println("[Task 1]");
+		for(int i = 0; i < task1.length; i++)
+			System.out.print(task1[i] + " ");
+		System.out.println();
+		
+		// Task2
+		int[] task2 = gd.getRandIntArr(10, 0,100);
+		System.out.println("[Task 2]");
+		for(int i = 0; i < task2.length; i++)
+			System.out.print(task2[i]+ " ");
+	}
+}

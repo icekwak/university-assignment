@@ -1,0 +1,141 @@
+(Edge class)
+public class Edge {
+	int adjvertex;	// 간선의 다른 쪽 끝 정점
+	int weight;		// 간선의 가중치
+	public Edge(int v, int wt) {
+		adjvertex = v;
+		weight = wt;
+	}
+}
+
+---------------------------------------------------------------------------
+(CheckGraph class)
+import java.util.*;
+public class CheckGraph {
+	public boolean isReverseSame(int[][] G) { // 인접행렬
+		int N = G.length;			// 정점 수
+		int[][] Gr = new int[N][N];	// 역방향 그래프
+		
+		for(int i = 0; i < N; i++) { // 역방향 인접향렬 생성
+			for(int j = 0; j < N; j++)
+					Gr[j][i] = G[i][j];
+		}
+		
+		for(int i = 0; i < N; i++) { // G와 Gr 비교
+			for(int j = 0; j < N; j++) {
+				if(G[i][j] != Gr[i][j])	// G와 Gr의 가중치 값이 다르면
+					return false;		// false
+			}
+		}
+		return true; // G와 Gr이 같으면 true
+	}
+	
+	public boolean isReverseSame(List<Edge>[] G) { // 인접리스트
+		int N = G.length;				// 정점 수
+		List<Edge>[] Gr = new List[N];	// 역방향 그래프
+		
+		for(int i = 0; i < N; i++) // 역방향 인접리스트
+			Gr[i] = new LinkedList<>();
+		
+		for(int i = 0; i < N; i++) { // 역뱡향 인접리스트 생성
+			for(Edge e : G[i])
+				Gr[e.adjvertex].add(new Edge(i,e.weight));
+		}
+		
+		for(int i = 0; i < N; i++) { // G와 Gr 비교
+			int j = 0;
+			for(Edge e : G[i]) {
+				if(e.weight != Gr[i].get(j).weight)	// G와 Gr의 가중치 값이 다르면
+					return false;					// false
+				j++;
+			}
+		}
+		return true; // G와 Gr이 같으면 true
+	}
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+(CheckGraphTest class)
+import java.util.*;
+public class CheckGraphTest {
+	public static void main(String[] args) {
+		int N = 4; // 정점 수
+		CheckGraph CG = new CheckGraph();
+		
+		// Task 1
+		int[][] adjmat1 = { {0,2,3,0}, 
+							{7,0,0,4},
+							{6,0,0,9},
+							{0,1,3,0} };
+		
+		List<Edge>[] adjlist1 = new List[4];
+		for(int i = 0; i < N; i++)
+			adjlist1[i] = new LinkedList<>();
+		adjlist1[0].add(new Edge(1,2));	adjlist1[0].add(new Edge(2,3));
+		adjlist1[1].add(new Edge(0,7));	adjlist1[1].add(new Edge(3,4));
+		adjlist1[2].add(new Edge(0,6));	adjlist1[2].add(new Edge(3,9));
+		adjlist1[3].add(new Edge(1,1));	adjlist1[3].add(new Edge(2,3));
+		
+		System.out.println("[Task 1]");
+		System.out.println("isReverseSame(adjmat1)  : " + CG.isReverseSame(adjmat1));
+		System.out.println("isReverseSame(adjlist1) : " + CG.isReverseSame(adjlist1));
+		System.out.println();
+		
+		// Task 2
+		int[][] adjmat2 = { {0,2,3,0}, 
+							{7,0,0,4},
+							{6,0,0,9},
+							{0,0,3,0} };
+		
+		List<Edge>[] adjlist2 = new List[4];
+		for(int i = 0; i < N; i++)
+			adjlist2[i] = new LinkedList<>();
+		adjlist2[0].add(new Edge(1,2));	adjlist2[0].add(new Edge(2,3));
+		adjlist2[1].add(new Edge(0,7));	adjlist2[1].add(new Edge(3,4));
+		adjlist2[2].add(new Edge(0,6));	adjlist2[2].add(new Edge(3,9));
+		adjlist2[3].add(new Edge(2,3));
+		
+		System.out.println("[Task 2]");
+		System.out.println("isReverseSame(adjmat2)  : " + CG.isReverseSame(adjmat2));
+		System.out.println("isReverseSame(adjlist2) : " + CG.isReverseSame(adjlist2));
+		System.out.println();
+		
+		// Task 3
+		int[][] adjmat3 = { {0,1,4,0}, 
+							{1,0,0,2},
+							{4,0,0,3},
+							{0,2,3,0} };
+		
+		List<Edge>[] adjlist3 = new List[4];
+		for(int i = 0; i < N; i++)
+			adjlist3[i] = new LinkedList<>();
+		adjlist3[0].add(new Edge(1,1));	adjlist3[0].add(new Edge(2,4));
+		adjlist3[1].add(new Edge(0,1));	adjlist3[1].add(new Edge(3,2));
+		adjlist3[2].add(new Edge(0,4));	adjlist3[2].add(new Edge(3,3));
+		adjlist3[3].add(new Edge(1,2));	adjlist3[3].add(new Edge(2,3));
+		
+		System.out.println("[Task 3]");
+		System.out.println("isReverseSame(adjmat3)  : " + CG.isReverseSame(adjmat3));
+		System.out.println("isReverseSame(adjlist3) : " + CG.isReverseSame(adjlist3));
+		System.out.println();
+		
+		// Task 4
+		int[][] adjmat4 = { {0,1,4,0}, 
+							{1,0,0,2},
+							{4,0,0,3},
+							{0,2,3,0} };
+		
+		List<Edge>[] adjlist4 = new List[4];
+		for(int i = 0; i < N; i++)
+			adjlist4[i] = new LinkedList<>();
+		adjlist4[0].add(new Edge(1,1));	adjlist4[0].add(new Edge(2,4));
+		adjlist4[1].add(new Edge(0,1));	adjlist4[1].add(new Edge(3,2));
+		adjlist4[2].add(new Edge(0,4));	adjlist4[2].add(new Edge(3,3));
+		adjlist4[3].add(new Edge(1,2));	adjlist4[3].add(new Edge(2,3));
+		
+		System.out.println("[Task 4]");
+		System.out.println("isReverseSame(adjmat4)  : " + CG.isReverseSame(adjmat4));
+		System.out.println("isReverseSame(adjlist4) : " + CG.isReverseSame(adjlist4));
+		System.out.println();
+	}
+}

@@ -1,0 +1,112 @@
+(Edge class)
+public class Edge {
+	int vertex;		// 간선의 한쪽 끝 정점
+	int adjvertex;	// 간선의 다른 쪽 끝 정점
+	int weight;		// 간선의 가중치
+	
+	public Edge(int u, int v, int wt) {
+		vertex = u;
+		adjvertex = v;
+		weight = wt;
+	}
+}
+
+-------------------------------------------------------------------------
+(Dijkstra class)
+import java.util.*;
+public class Dijkstra {
+	public int N;			// 그래프 정점의 수
+	List<Edge>[] graph;
+	
+	public int[] previous;	// 최단경로상 이전 정점을 기록하기 위해
+	public Dijkstra(List<Edge>[] adjList) {
+		N = adjList.length;
+		previous = new int[N];
+		graph = adjList;
+	}
+	
+	public int[] shortestPath(int s) {
+		boolean[] visited = new boolean[N];
+		int[] D = new int[N];
+		for(int i = 0; i < N; i++) { // 초기화
+			visited[i] = false;
+			previous[i] = -1;
+			D[i] = Integer.MAX_VALUE;
+		}
+		previous[s] = 0; // 시작점 s의 관련 정보 초기화
+		D[s] = 0;
+		for(int k = 0; k < N; k++) {	// 방문 안된 정점들 중에서
+			int minVertex = -1;			// D원소 값이 최소인 minVertex 찾기
+			int min = Integer.MAX_VALUE;
+			for(int j = 0; j < N; j++) {
+				if((!visited[j]) && (D[j] < min)) {
+					min = D[j];
+					minVertex = j;
+				}
+			}
+			visited[minVertex] = true;
+			for(Edge e : graph[minVertex]) { // minVertex에 인접한 각 정점에 대해
+				if(!visited[e.adjvertex]) {	 // 아직 방문 안된 정점에 대해
+					int currentDist = D[e.adjvertex];
+					int newDist = D[minVertex] + e.weight;
+					if(newDist < currentDist) {
+						D[e.adjvertex] = newDist;			// 간선완화
+						previous[e.adjvertex] = minVertex;	// 최종 최단경로를 '역 방향으로'추출
+					}
+				}
+			}
+		}
+		return D;
+	}
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+(DijkstraTest class)
+import java.util.*;
+public class DijkstraTest {
+	public static void main(String[] args) {
+		int[][] weight = {	{0,1,0,2,0,0,0,0},
+							{1,0,4,3,1,6,0,0},
+							{0,4,0,0,0,1,1,2},
+							{2,3,0,0,5,0,0,0},
+							{0,1,0,5,0,0,2,0},
+							{0,6,1,0,0,0,0,9},
+							{0,0,1,0,2,0,0,1},
+							{0,0,2,0,0,9,1,0} };
+		
+		int N = weight.length;
+		List<Edge>[] adjList = new List[N];
+		for(int i = 0; i < N; i++) {
+			adjList[i] = new LinkedList<>();
+			for(int j = 0; j < N; j++) {
+				if(weight[i][j] != 0) {
+					Edge e = new Edge(i,j,weight[i][j]);
+					adjList[i].add(e);
+				}
+			}
+		}
+		
+		Dijkstra d = new Dijkstra(adjList);
+		
+		System.out.println("정점 0으로부터의 최단거리");
+		int[] distance = d.shortestPath(0);
+		
+		for(int i = 0; i < distance.length; i++) {
+			if(distance[i] == Integer.MAX_VALUE)
+				System.out.println("0과 " + i + " 사이에 경로 없음.");
+			else
+				System.out.println("[0, " + i + "] = " + distance[i]);
+		}
+		
+		System.out.printf("\n정점 0으로부터의 최단 경로\n");
+		for(int i = 1; i < d.N; i++) {
+			int back = i;
+			System.out.print(back);
+			while(back != 0) {
+				System.out.print("<-" + d.previous[back]);
+				back = d.previous[back];
+			}
+			System.out.println();
+		}
+	}
+}

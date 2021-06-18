@@ -1,0 +1,69 @@
+(FloydWarshall class)
+public class FloydWarshall {
+	public static final int INF = Integer.MAX_VALUE;
+	private int N;		// 정점 수
+	private int[][] D;	// 모든 쌍 최단거리를 저장할 배열
+	
+	public FloydWarshall(int numOfVertices) { // 생성자
+		N = numOfVertices;
+		D = new int[N][N];
+	}
+	
+	public int[][] AllPairsShortestPaths(int[][] adjMatrix) { // 모든 쌍 최단경로 찾기
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++)
+				D[i][j] = adjMatrix[i][j]; // 초기화
+		}
+		
+		for(int k = 0; k < N; k++) {		 // 경유 정점
+			for(int i = 0; i < N; i++) {	 // 출발 정점
+				for(int j = 0; j < N; j++) { // 도착 정점
+					if(D[i][k] == INF || D[k][j] == INF)
+						continue; // 간선 가중치가 INF이면 continue
+					if(D[i][j] > D[i][k] + D[k][j])
+						D[i][j] = D[i][k] + D[k][j]; // 간선 완화
+				}
+			}
+		}
+		return D;
+	}
+	
+	public void printAdjMatrix(int[][] adjMatrix) { // (매개변수 => 인접행렬) 출력
+		int N = adjMatrix.length; // 정점 수
+		System.out.println("AdjMatrix : ");
+		
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++) {
+				if(adjMatrix[i][j] == INF)
+					System.out.print("INF"); // 값이 INF인 경우
+				else
+					System.out.printf("%3d",adjMatrix[i][j]); // 가중치 출력
+				if(j < N-1)	// 쉼표 출력
+					System.out.print(", ");
+			}
+			System.out.println();
+		}
+	}
+}
+
+-------------------------------------------------------------------------------------------------------------------------
+(FloydWarshallTest class)
+public class FloydWarshallTest {
+	public static final int INF = Integer.MAX_VALUE;
+	public static void main(String[] args) {
+		int[][] adjMatrix = {	{  0,  4,  2,  5,INF},
+								{INF,  0,  1,INF,  4},
+								{  1,  3,  0,  1,  2},
+								{ -2,INF,INF,  0,  2},
+								{INF, -3,  3,  1,  0}
+		};
+		int N = adjMatrix.length;
+		
+		FloydWarshall fw = new FloydWarshall(N);
+		
+		fw.printAdjMatrix(adjMatrix);		 				// adjMatrix 출력
+		int[][] d = fw.AllPairsShortestPaths(adjMatrix);	// 모든 쌍 최단경로 찾기
+		System.out.print("\n모든 쌍 최단경로 찾기 후 ");
+		fw.printAdjMatrix(d);		 						// 최종 인접행렬 D 출력
+	}
+}

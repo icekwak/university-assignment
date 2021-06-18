@@ -1,0 +1,39 @@
+public class personInfo {
+	private String name;
+	private int ID;
+	
+	public personInfo(String name, int ID) {
+		this.name = name;
+		this.ID = ID;
+	}
+	
+	public void printPersonInfo() {
+		System.out.println("(부모클래스) name: " + name + "  ID: " + ID);
+	}
+}
+-------------------------------------------------------------------------------------------------------------------
+public class studentInfo extends personInfo {
+	private String deptName;
+	private int stuID;
+	
+	public studentInfo(String deptName, int stuID) {
+		super(deptName, stuID);
+		this.deptName = deptName;
+		this.stuID = stuID;
+	}
+	
+	public void printStudentInfo() {
+		super.printPersonInfo();
+		System.out.println("(자식클래스) name: " + deptName + "  ID: " + stuID);
+	}
+}
+-------------------------------------------------------------------------------------------------------------------
+public class TestPersonAndStudent {
+	public static void main(String[] args) {
+		personInfo person = new personInfo("김철수",20171111);
+		studentInfo student = new studentInfo("김영희",20172222);
+		
+		person.printPersonInfo();
+		student.printStudentInfo();
+	}
+}

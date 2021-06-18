@@ -1,0 +1,130 @@
+(Node 클래스)
+public class Node <E> {
+	private int item;
+	private Node<E> next;
+	
+	public Node(int newItem, Node<E> node) {
+		item = newItem;
+		next = node;
+	}
+	
+	public int getItem() {
+		return item;
+	}
+	public void setItem(int newItem) {
+		item = newItem;
+	}
+	
+	public Node<E> getNext() {
+		return next;
+	}
+	public void setNext(Node<E> newNext) {
+		next = newNext;
+	}
+}
+
+----------------------------------------------------------------------------------------
+(CList 클래스)
+import java.util.NoSuchElementException;
+public class CList <E> {
+	private Node last; // 마지막 노드(항목)을 가리킨다.
+	private int size;
+	
+	public CList() {
+		last = null;
+		size = 0;
+	}
+	
+	public void insert(int newItem) {
+		Node newNode = new Node(newItem, null);
+		if(last == null) {
+			newNode.setNext(newNode);
+			last = newNode;
+		}
+		else {
+			newNode.setNext(last.getNext());
+			last.setNext(newNode);
+		}
+		size++;
+	}
+	
+	public Node delete() {
+		if(isEmpty())
+			throw new NoSuchElementException();
+		Node x = last.getNext();
+		if(x == last)
+			last = null;
+		else {
+			last.setNext(x.getNext());
+			x.setNext(null);
+		}
+		size--;
+		return x;
+	}
+	
+	public boolean isEmpty() {
+		if(last == null)
+			return true;
+		return false;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public void print() {
+		Node p = last.getNext();
+		for(int i = 0; i < size; i++) {
+			System.out.print(p.getItem() + "\t");
+			p = p.getNext();
+		}
+		System.out.println();
+	}
+	
+	public void rotateLeft(int n) {
+		for(int i = 0; i < n; i++) {
+			Node p = last;
+			Node q = p.getNext();
+			last = q;
+		}
+	}
+	
+	public void rotateRight(int n) {
+		for(int i = 0; i < n; i++) {
+			Node p = last.getNext();
+			Node q = p.getNext();
+			last = q.getNext();
+		}
+	}
+}
+
+--------------------------------------------------------------------------------------
+(main7 클래스)
+public class main7 {
+	public static void main(String[] args) {
+		CList<Integer> cl1 = new CList<Integer>();
+		CList<Integer> cl2 = new CList<Integer>();
+		
+		System.out.println("[cl1 list]");
+		cl1.insert(4);		cl1.insert(3);
+		cl1.insert(2);		cl1.insert(1);
+		cl1.print();
+		System.out.println();
+		
+		System.out.println("[cl2 list]");
+		cl2.insert(4);		cl2.insert(3);
+		cl2.insert(2);		cl2.insert(1);
+		cl2.print();
+		System.out.println();
+		
+		System.out.println("[cl1 rotateLeft(1)]");
+		cl1.rotateLeft(1);
+		cl1.print();
+		System.out.println();
+		
+		System.out.println("[cl2 rotateRight(1)]");
+		cl2.rotateRight(1);
+		cl2.print();
+		System.out.println();
+	}
+}

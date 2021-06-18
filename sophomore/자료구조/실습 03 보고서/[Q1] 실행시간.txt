@@ -1,0 +1,71 @@
+public class TimeDiffTest {
+	public static void main (String[] args) {
+		int[] arr = new int[500];
+		for(int i=0; i<arr.length; i++) {
+			arr[i] = 0;
+		}
+		long beforeTime = System.currentTimeMillis();
+		//fConstant(arr); //[100000000]
+		//fLinear(arr); //[1000000]
+		//fQuadratic(arr); //[1000]
+		//fCubic(arr);
+		//fFourth(arr); //[300]
+		long afterTime = System.currentTimeMillis();
+		long diffTimeMilliSecond = afterTime - beforeTime;
+		System.out.println("Time diff (ms): " + diffTimeMilliSecond);
+	}
+	
+	public static int fConstant(int[] arr) {
+		return arr.length + 1;
+	}//상수시간
+	
+	public static int fLinear(int[] arr) {
+		int total = 0;
+		for(int n : arr) {
+			total += n;
+		}
+		return total;
+	}//선형시간
+	
+	public static boolean fQuadratic(int[] arr) {
+		int target = 30;
+		for(int first : arr) {
+			for(int second : arr) {
+				if(first + second == target) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}//제곱시간
+	
+	public static boolean fCubic(int[] arr) {
+		int target = 30;
+		for(int first : arr) {
+			for(int second : arr) {
+				for(int third : arr) {
+					if(first + second + third == target) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}//세제곱시간
+	
+	public static boolean fFourth(int[] arr) {
+		int target = 30;
+		for(int first : arr) {
+			for(int second : arr) {
+				for(int third : arr) {
+					for(int fourth: arr) {
+						if(first + second + third + fourth == target) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}//네제곱시간
+}

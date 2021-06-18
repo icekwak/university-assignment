@@ -1,0 +1,119 @@
+(Node 클래스)
+public class Node <E> {
+	private int item;
+	private Node<E> next;
+	
+	public Node(int newItem, Node<E> node) {
+		item = newItem;
+		next = node;
+	}
+	
+	public int getItem() {
+		return item;
+	}
+	public void setItem(int newItem) {
+		item = newItem;
+	}
+	
+	public Node<E> getNext() {
+		return next;
+	}
+	public void setNext(Node<E> newNext) {
+		next = newNext;
+	}
+}
+
+----------------------------------------------------------------------------------------------
+(SList 클래스)
+import java.util.NoSuchElementException;
+public class SList <E> {
+	protected Node head; // 첫 노드 가리킴
+	private int size;
+	
+	public SList() {
+		head = null;
+		size = 0;
+	}
+	
+	public int search(int target) { // 탐색
+		Node p = head;
+		for(int k = 0; k < size; k++) {
+			if(target == p.getItem())
+				return k;
+			p = p.getNext();
+		}
+		return -1; // 탐색 실패
+	}
+	
+	public void insertFront(int newItem) { // 맨 앞에 새 노드 삽입
+		head = new Node(newItem, head);
+		size++;
+	}
+	
+	public void insertAfter(int newItem, Node p) { // 노드p 바로 다음에 새 노드 삽입
+		p.setNext(new Node(newItem, p.getNext()));
+		size++;
+	}
+	
+	public void deleteFront() { // 첫 노드 삭제
+		if(size == 0)
+			throw new NoSuchElementException();
+		head = head.getNext();
+		size--;
+	}
+	
+	public void deleteAfter(Node p) { // p가 가리키는 노드의 다음 노드 삭제
+		if(p == null)
+			throw new NoSuchElementException();
+		Node t = p.getNext();
+		p.setNext(t.getNext());
+		t.setNext(null);
+		size--;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public void print() {
+		Node p = head;
+		for(int i = 0; i < size; i++) {
+			System.out.print(p.getItem() + "\t");
+			p = p.getNext();
+		}
+		System.out.println();
+	}
+	public void reverse() { //역순
+		Node p = head;
+		Node q = null;
+		Node r = null;
+		
+		while(p != null) {
+			r = q;
+			q = p;
+			p = p.getNext();
+			q.setNext(r);
+		}
+		head = q;
+	}
+}
+
+--------------------------------------------------------------------------
+(main5 클래스)
+public class main5 {
+	public static void main(String[] args) {
+		SList<Integer> sl = new SList<Integer>();
+		
+		sl.insertFront(5);		sl.insertFront(4);
+		sl.insertFront(3);		sl.insertFront(2);
+		sl.insertFront(1);
+		System.out.println("[역순 전]");
+		sl.print();
+		System.out.println();
+		
+		sl.reverse();
+		System.out.println("[역순 후]");
+		sl.print();
+		System.out.println();
+	}
+}

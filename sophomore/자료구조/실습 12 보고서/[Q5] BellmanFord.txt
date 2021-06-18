@@ -1,0 +1,79 @@
+(BellmanFord class)
+public class BellmanFord {
+	public static final int INF = Integer.MAX_VALUE;
+	private int D[];
+	private int previous[]; // 경로 추출을 위해
+	private int N;
+	
+	public BellmanFord(int numOfVertices) { // 생성자
+		N = numOfVertices;
+		D = new int[N];			// 최단거리 저장
+		previous = new int[N];	// 최단경로 추출하기 위해
+	}
+	
+	public void shortestPath(int s, int adjMatrix[][]) {
+		for(int i = 0; i < N; i++)
+			D[i] = INF; // 초기화
+		D[s] = 0;
+		previous[s] = 0;
+		for(int k = 0; k < N-1; k++) {
+			for(int i = 0; i < N; i++) {
+				for(int j = 0; j < N; j++) {
+					if(adjMatrix[i][j] != INF) {
+						if(D[j] > D[i] + adjMatrix[i][j]) {
+							D[j] = D[i] + adjMatrix[i][j];
+							previous[j] = i;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void printpaths(int s) { // 결과 출력
+		System.out.println("정점 0으로부터의 최단거리");
+		int[] distance = D;
+		
+		for(int i = 1; i < distance.length; i++) {
+			if(distance[i] == Integer.MAX_VALUE)
+				System.out.println("0과 " + i + " 사이에 경로 없음.");
+			else
+				System.out.printf("[0,%d] = %3d\n",i,distance[i]);
+		}
+		
+		System.out.printf("\n정점 0으로부터의 최단 경로\n");
+		for(int i = 1; i < N; i++) {
+			int back = i;
+			System.out.print(back);
+			while(back != 0) {
+				System.out.print("<-" + previous[back]);
+				back = previous[back];
+			}
+			System.out.println();
+		}
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------
+(BellmanFordTest class)
+public class BellmanFordTest {
+	public static final int INF = Integer.MAX_VALUE;
+	public static void main(String[] args) {
+		int[][] weight = {
+				{INF,  1,INF,  2,INF,INF,INF,INF},
+				{INF,INF,  4, -2,INF,  6,INF,INF},
+				{INF,INF,INF,INF,INF,INF,INF,  2},
+				{INF,INF,INF,INF, -1,INF,INF,INF},
+				{INF,INF,INF,INF,INF,INF,  4,INF},
+				{INF,INF,  1,INF,INF,INF,INF,INF},
+				{INF,INF, -1,INF,INF,INF,INF,  1},
+				{INF,INF,INF,INF,INF,  3,INF,INF}
+		};
+		int N = weight.length; // 그래프 정점의 수
+		
+		int s = 0; // 출발점
+		BellmanFord bf = new BellmanFord(N); // 객체 생성
+		bf.shortestPath(s, weight);			 // 최단경로 찾기
+		bf.printpaths(s);					 // 결과 출력
+	}
+}

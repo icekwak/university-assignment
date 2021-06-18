@@ -1,0 +1,124 @@
+(ArrayStack class)
+import java.util.EmptyStackException;
+public class ArrayStack <E> {
+	private E s[]; 		//스택을 위한 배열
+	private int top; 	//스택의 top 항목의 배열 원소 인덱스
+	
+	public ArrayStack() { //크기가 1인 배열 초기화 생성자
+		s = (E[]) new Object[1];
+		top = -1;
+	}
+	
+	public int size() { //항목 수 리턴
+		return top+1;
+	}
+	
+	public boolean isEmpty() { //empty이면 true리턴
+		return (top == -1);
+	}
+	
+	public E peek() { //top 항목 리턴
+		if(isEmpty())
+			throw new EmptyStackException();
+		return s[top];
+	}
+	
+	public void push(E newItem) { 	//push 연산
+		if(size() == s.length)
+			resize(2*s.length);		//크기 2배로 확장
+		s[++top] = newItem;			//새 항목 push
+	}
+	
+	public E pop() { //pop 연산
+		if(isEmpty())
+			throw new EmptyStackException();
+		E item = s[top];
+		s[top--] = null;
+		if(size() > 0 && size() == s.length/4)
+			resize(s.length/2); //크기 1/2로 축소
+		return item;
+	}
+	
+	private void resize(int newSize) { //배열크기 조절
+		Object[] t = new Object[newSize];	
+		for(int i=0; i<size(); i++)
+			t[i] = s[i];				
+		s =  (E[]) t;					
+	}
+	
+	public void print() { //출력
+		for(int i=0; i<s.length; i++) {
+			if(i < size())
+				System.out.printf(s[i] + "\t");
+			else System.out.printf("null\t");
+		}
+		System.out.println();
+	}
+	
+	public double calc(String[] s) {
+		ArrayStack<Double> dou = new ArrayStack<Double>();
+		double result = 0.0;
+		double x, y;
+		
+		for(int i = 0; i < s.length; i++) {
+			if(s[i] == "+" || s[i] == "-" ||
+					s[i] == "*" || s[i] == "/") { // 연산자
+				switch(s[i]) {
+				case "+":
+					y = dou.pop(); // 최근값
+					x = dou.pop(); // 나중값
+					result = x + y;
+					dou.push(result);
+					break;
+				case "-":
+					y = dou.pop(); // 최근값
+					x = dou.pop(); // 나중값
+					result = x - y;
+					dou.push(result);
+					break;
+				case "*":
+					y = dou.pop(); // 최근값
+					x = dou.pop(); // 나중값
+					result = x * y;
+					dou.push(result);
+					break;
+				case "/":
+					y = dou.pop(); // 최근값
+					x = dou.pop(); // 나중값
+					result = x / y;
+					dou.push(result);
+					break;
+				}
+			}
+			else // 피연산자
+				dou.push(Double.parseDouble(s[i]));
+		}
+		return result;
+	}
+}
+
+----------------------------------------------------------------------------------------------------------
+(main6 class)
+public class main6 {
+	public static void main(String[] args) {
+		System.out.println("-- 후위표기법 수식 계산 --");
+		System.out.println();
+		
+		//task1
+		ArrayStack<Double> dou1 = new ArrayStack<Double>();
+		String[] s1 = {"81", "37", "-211", "+", "15", "-", "/"};
+		for(int i = 0; i < s1.length; i++)
+			System.out.print(s1[i] + "  ");
+		System.out.println();
+		System.out.println("결과 = " + dou1.calc(s1));
+		System.out.println();
+		
+		//task2
+		ArrayStack<Double> dou2 = new ArrayStack<Double>();
+		String[] s2 = {"20.5", "10.2", "3.3", "+", "*"};
+		for(int i = 0; i < s2.length; i++)
+			System.out.print(s2[i] + "  ");
+		System.out.println();
+		System.out.println("결과 = " + dou2.calc(s2));
+	}
+}

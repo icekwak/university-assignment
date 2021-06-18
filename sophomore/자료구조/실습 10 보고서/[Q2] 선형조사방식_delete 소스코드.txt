@@ -1,0 +1,115 @@
+(LinearProbing class)
+public class LinearProbing <K, V> {
+	private int M = 13; // 테이블 크기
+	private K[] a = (K[]) new Object[M]; // 해시테이블
+	private V[] d = (V[]) new Object[M]; // key 관련 데이터 저장
+	
+	private int hash(K key) { // 해시코드
+		return (key.hashCode() & 0x7fffffff) % M; // 나눗셈 함수
+	}
+	
+	public void put(K key, V data) { // 삽입 연산
+		int initialpos = hash(key); // 초기 위치
+		int i = initialpos, j = 1;
+		
+		do {
+			if(a[i] == null || a[i] == "del") { // 삽입 위치를 null or "del"(삭제연산)
+				a[i] = key; // key를 해시테이블에 저장
+				d[i] = data; // key 관현 데이터를 동일한 인덱스하에 저장
+			}
+			if(a[i].equals(key)) { // 이미 key 존재:
+				d[i] = data; // 데이터만 갱신
+				return;
+			}
+			i = (initialpos + j++) % M; // i = 다음 위치
+		}while(i != initialpos); // 현재 i가 초기위치와 같게되면 루프 종료
+	}
+	
+	public V get(K key) { // 탐색 연산
+		int initialpos = hash(key);
+		int i = initialpos, j = 1;
+		
+		do {
+			if(a[i].equals(key))
+				return d[i];
+			i = (initialpos + j++) % M;
+		}while(a[i] != null && i != initialpos); // a[i]가 null(=비어있음)이면 stop (못찾음)
+												 // && 처음 위치로 돌아왔다면 stop (못찾음)
+		return null;
+	}
+	
+	public void print() { // 출력함수
+		for(int i = 0; i < M; i++)
+			System.out.format("\t%2d",i);
+		System.out.println();
+		
+		for(int j = 0; j < M; j++)
+			System.out.print("\t" + a[j]);
+		System.out.println();
+	}
+	
+	//get
+	public int getM() {
+		return M;
+	}
+	public K geta() {
+		return (K) a;
+	}
+	public V getd() {
+		return (V) d;
+	}
+}
+
+-------------------------------------------------------------------------------------------------------------------
+(LinearProbing2 class)
+public class LinearProbing2 <K, V> extends LinearProbing<K, V> {
+	private int M2 = getM(); // 테이블 크기
+	private K[] a2 = (K[]) geta(); // 해시테이블
+	private V[] d2 = (V[]) getd(); // key 관련 데이터 저장
+
+	private int hash(K key) { // 해시코드
+		return (key.hashCode() & 0x7fffffff) % M2; // 나눗셈 함수
+	}
+	
+	public V delete(K key) { // 삭제 연산
+		int initialpos = hash(key); // 초기 위치
+		int i = initialpos, j = 1;
+		V data = null; // 삭제 key를 못찾을 때는 null리턴
+	
+		do {
+			if(a2[i].equals(key)) { // 삭제할 key값을 찾았을 때
+				data = d2[i]; // 삭제할 key 찾았을 때 data에 key 관련 데이터 저장
+				a2[i] = (K) "del";	// (삭제연산)"del"이 null과 같은 역할을 한다.
+				d2[i] = null; // data는 null로 설정해도 무방
+				break;
+			}
+			i = (initialpos + j++) % M2; // i = 다음 위치
+		}while(i != initialpos); // 현재 i가 초기위치와 같게되면 루프 종료
+		
+		return data;
+	}
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+(LinearProbing2Test class)
+public class LinearProbing2Test {
+	public static void main(String[] args) {
+		LinearProbing2<Integer, Integer> lp2 = new LinearProbing2<Integer, Integer>();
+		
+		System.out.println("해시 테이블:");
+		lp2.put(25, 25);	lp2.put(37, 37);	lp2.put(18, 18);
+		lp2.put(55, 55);	lp2.put(22, 22);	lp2.put(35, 35);
+		lp2.put(50, 50);	lp2.put(63, 63);	lp2.print();
+		System.out.println();
+		
+		System.out.println("key = 63, data = " + lp2.get(63));
+		
+		System.out.println("key = 50, 삭제한 data = " + lp2.delete(50));
+		System.out.println();
+		
+		System.out.println("해시 테이블:");	lp2.print();
+		System.out.println();
+		
+		System.out.println("key = 63, data = " + lp2.get(63));
+	}
+}

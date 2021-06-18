@@ -1,0 +1,53 @@
+(Edge class)
+public class Edge {
+	int adjvertex; // 간선의 다른 쪽 정점
+	
+	public Edge(int v) { // 생성자
+		adjvertex = v;
+	}
+}
+-------------------------------------------------------------------
+(Q1Test class)
+import java.util.*;
+public class Q1Test {
+	public static void main(String[] args) {
+		int N = 4; // 정점 수
+		List<Edge>[] adjList = new List[N]; // 인접리스트
+		
+		// 인접리스트 추가
+		for(int i =0; i < N; i++)
+			adjList[i] = new LinkedList<>();
+		
+		adjList[0].add(new Edge(1));
+		adjList[0].add(new Edge(2));
+		
+		adjList[1].add(new Edge(0));
+		adjList[1].add(new Edge(2));
+		adjList[1].add(new Edge(3));
+		
+		adjList[2].add(new Edge(0));
+		adjList[2].add(new Edge(1));
+		adjList[2].add(new Edge(3));
+		
+		adjList[3].add(new Edge(1));
+		adjList[3].add(new Edge(2));
+		
+		print(adjList,N);
+	}
+	
+	public static void print(List<Edge>[] adjList, int N) {
+		if( N <= 0) {
+			System.out.println("그래프 비어있음.");
+			return;
+		}
+		
+		System.out.println("인접리스트를 이용한 그래프: ");
+		for(int i = 0; i < N; i++) {
+			System.out.printf("[%d]",i);
+			List<Edge> data = adjList[i];
+			for(Edge temp : data)
+				System.out.print(" => " + temp.adjvertex);
+			System.out.println();
+		}
+	}
+}

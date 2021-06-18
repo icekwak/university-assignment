@@ -1,0 +1,181 @@
+(Node 클래스)
+public class Node <E> {
+	private int item;
+	private Node<E> next;
+	
+	public Node(int newItem, Node<E> node) {
+		item = newItem;
+		next = node;
+	}
+	
+	public int getItem() {
+		return item;
+	}
+	public void setItem(int newItem) {
+		item = newItem;
+	}
+	
+	public Node<E> getNext() {
+		return next;
+	}
+	public void setNext(Node<E> newNext) {
+		next = newNext;
+	}
+}
+
+--------------------------------------------------------------------------------------
+(SList 클래스)
+import java.util.NoSuchElementException;
+public class SList <E> {
+	protected Node head; // 첫 노드 가리킴
+	private int size;
+	
+	public SList() {
+		head = null;
+		size = 0;
+	}
+	
+	public int search(int target) { // 탐색
+		Node p = head;
+		for(int k = 0; k < size; k++) {
+			if(target == p.getItem())
+				return k;
+			p = p.getNext();
+		}
+		return -1; // 탐색 실패
+	}
+	
+	public void insertFront(int newItem) { // 맨 앞에 새 노드 삽입
+		head = new Node(newItem, head);
+		size++;
+	}
+	
+	public void insertAfter(int newItem, Node p) { // 노드p 바로 다음에 새 노드 삽입
+		p.setNext(new Node(newItem, p.getNext()));
+		size++;
+	}
+	
+	public void deleteFront() { // 첫 노드 삭제
+		if(size == 0)
+			throw new NoSuchElementException();
+		head = head.getNext();
+		size--;
+	}
+	
+	public void deleteAfter(Node p) { // p가 가리키는 노드의 다음 노드 삭제
+		if(p == null)
+			throw new NoSuchElementException();
+		Node t = p.getNext();
+		p.setNext(t.getNext());
+		t.setNext(null);
+		size--;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public void print() {
+		Node p = head;
+		for(int i = 0; i < size; i++) {
+			System.out.print(p.getItem() + "\t");
+			p = p.getNext();
+		}
+		System.out.println();
+	}
+	
+	public void setAndOrderNodes(int[] arr) {
+		if(arr != null) { // 리스트에 저장된 모든 노드 삭제
+			while(size != 0)
+				deleteFront();
+		}
+		else // 배열이 비어있으면 예외처리
+			throw new NoSuchElementException();
+		
+		Node p = head;
+		for(int i = 0; i < arr.length; i++) {
+			if(p == null || p.getItem() >= arr[i]) {	// head == null or arr[i]이 작거나 같을 때
+				p = new Node(arr[i], p);
+				size++;
+			}
+			else { // arr[i]이 클 때
+				Node q = p;
+				for(int j = 0; j < size; j++) {
+					if(q.getNext() == null) { // 다음 항목이  null일 때
+						q.setNext(new Node(arr[i], q.getNext()));
+						size++;
+						break;
+					}
+					else { // null이 아닐 때
+						if(q.getNext().getItem() < arr[i]) // 다음 항목보다 arr[i]이 클 때
+							q = q.getNext();
+						else { // arr[i]이 작거나 같을 때
+							q.setNext(new Node(arr[i], q.getNext()));
+							size++;
+							break;
+						}
+					}
+				}
+			}
+		}
+		head = p;
+	}
+	
+	public void join (SList slist) { // 결합
+		Node p = head;
+		Node q = slist.head;
+		while(q != null) {
+			if(p.getItem() > q.getItem()) {	// head == null or arr[i]이 작거나 같을 때
+				p = new Node(q.getItem(), p);
+				size++;	
+			}
+			else { // arr[i]이 클 때
+				Node r = p;
+				for(int j = 0; j < size; j++) {
+					if(r.getNext() == null) { // 다음 항목이  null일 때
+						r.setNext(new Node(q.getItem(), r.getNext()));
+						size++;
+						break;
+					}
+					else { // null이 아닐 때
+						if(r.getNext().getItem() < q.getItem()) // 다음 항목보다 arr[i]이 클 때
+							r = r.getNext();
+						else { // arr[i]이 작거나 같을 때
+							r.setNext(new Node(q.getItem(), r.getNext()));
+							size++;
+							break;
+						}
+					}
+				}
+			}
+			q = q.getNext();
+		}
+		head = p;
+	}
+}
+
+-------------------------------------------------------------------------------------------------------------------------
+(main4 클래스)
+public class main4 {
+	public static void main(String[] args) {
+		SList<Integer> slist1 = new SList<Integer>();
+		SList<Integer> slist2 = new SList<Integer>();
+		
+		System.out.println("[slist1 정렬]");
+		int[] arr1 = {7,11,4,1,8};
+		slist1.setAndOrderNodes(arr1);
+		slist1.print();
+		System.out.println();
+		
+		System.out.println("[slist2 정렬]");
+		int[] arr2 = {5,2,8,7,13};
+		slist2.setAndOrderNodes(arr2);
+		slist2.print();
+		System.out.println();
+		
+		System.out.println("[join 후 정렬]");
+		slist1.join(slist2);
+		slist1.print();
+		System.out.println();
+	}
+}

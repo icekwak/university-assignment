@@ -1,0 +1,164 @@
+(ArrListPoly클래스)
+public class ArrListPoly extends ArrList <Integer> {
+	private int[] arr; 	// 다항식 계수가 저장된 배열
+	private int k; 		// 최고차수
+	
+	public ArrListPoly() { //초기화 생성자
+		arr = new int[1];
+		k = 0;
+	}
+	public ArrListPoly(int k, int [] arr) { //최고차수와 계수를 받는 생성자
+		this.k = k;
+		this.arr = arr;
+		super.setArrList(k,arr); // 부모클래스로 값 전달
+	}
+	
+	public int getHighestDegree() { // 최고차수 접근자
+		return k;
+	}
+	public void setHighestDegree(int k) { // 최고차수 설정자
+		this.k = k;
+	}
+	
+	public void setPoly(int k, int[] arr) {
+		this.k = k;
+		this.arr = arr;
+		super.setArrList(k,arr); // 부모클래스로 값 전달
+	}
+	
+	public ArrListPoly sumPoly(ArrListPoly p) {
+		int[] x = null;
+		int y = 0;
+		
+		if(k > p.k) { // 최고차수 비교
+			x = new int[k+1];
+			y = k;
+		
+			for(int i=0; i<k+1; i++) {
+				if(i <= (k - p.k) )
+					x[i] = arr[i] + p.arr[i]; // 같은 차수끼리 값 더하기
+				else
+					x[i] = arr[i]; // 같은 차수 계수 중에 하나의 계수가 0일 떄
+			}
+			return new ArrListPoly(y,x);
+		} else if(k < p.k) { // 최고차수 비교
+			x = new int[p.k+1];
+			y = p.k;
+			
+			for(int i=0; i<p.k+1; i++) {
+				if(i <= (p.k - k) )
+					x[i] = arr[i] + p.arr[i]; // 같은 차수끼리 값 더하기
+				else
+					x[i] = p.arr[i]; // 같은 차수 계수 중에 하나의 계수가 0일 떄
+			}
+			return new ArrListPoly(y,x);
+		}
+		return new ArrListPoly(y,x);
+	}
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+(ArrList클래스)
+import java.util.NoSuchElementException;
+public class ArrList <E> {
+	private E a[]; 		// 리스트의 항목들을 저장한 배열
+	private int size;		// 리스트의 항목 수
+	
+	public ArrList() {	// 생성자
+		a = (E[]) new Object[1];	// 최초로 1개의 원소를 가진 배열 생성
+		size = 0;			// 항목 수를 0으로 초기화
+	}
+
+	public void setArrList(int k, int[] arr) { //최고차수와 다항식 계수를 받는다.
+		Object[] t = new Object[k+1];
+		for(int i=0; i<k+1; i++) //다항식 계수 배열을  E[] a리스트에 저장
+			t[i] = arr[i];
+		a = (E[]) t;
+		size = k+1; // 여기서 size는 배열크기 이므로 최고차수+1 한다.
+	}
+	
+	private void resize(int newSize) {			// 배열크기 조절
+		Object[] t = new Object[newSize];	// newSize 크기의 새로운 배열 t 생성
+		for(int i=0; i<size; i++)
+			t[i] = a[i];				// 배열 s를 배열 t로 복사
+		a =  (E[]) t;					// 배열 t를 배열 s로
+	}
+	
+	public E peek(int k) {	// k번째 항목을 리턴
+		if(size == 0 || k  >= size)
+			throw new NoSuchElementException();
+		return a[k];
+	}
+	
+	public boolean isEmpty() {
+		if(size == 0)
+			return true;
+		return false;
+	}
+	
+	public void insertLast(E newItem) {	// 가장 뒤에 새 항목 삽입
+		if(size == a.length)		// 배열에 빈 공간이 없으면
+			resize(2 * a.length);	// 배열 크기 2배로 확장
+		a[size++] = newItem;		// 새 항목 삽입
+	}
+	
+	public void insert(E newItem, int k) {	// 새 항목을 k-1번째 항목 다음에 삽입
+		if(size == a.length)			// 배열에 빈 공간이 없으면
+			resize(2 * a.length);		// 배열 크기 2배로 확장
+		for(int i=size-1; i>=k; i--)	// 한 칸씩 뒤로 이동
+			a[i+1] = a[i];
+		a[k] = newItem;
+		size++;
+	}
+	public void insert(E newItem) {
+		insertLast(newItem);
+	}
+	
+	public E delete(int k) {	// k번째 항목 삭제
+		if(isEmpty()) throw new NoSuchElementException();	// underflow
+		E item = a[k];
+		for(int i=k; i<size; i++)	// 한 칸씩 앞으로 이동
+			a[i] = a[i+1];
+		size--;
+		if(size > 0 && size <= a.length/4)	// 배열의 1/4 이하만 사용됨
+			resize(a.length/2);				// 배열을 1/2로 축소
+		return item;
+	}
+	
+	public void print() {
+		for(int i=0; i<a.length; i++) {
+			if(i < size)
+				System.out.printf(a[i] + "\t");
+			else System.out.printf("null\t");
+		}
+		System.out.println();
+	}
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+(ArrListPolyTest클래스)
+public class ArrListPolyTest {
+	public static void main(String[] args) {
+		ArrListPoly p1 = new ArrListPoly();
+		// {9,0,3,0,5} = 9 x0 + 0 x1 + 3 x2 + 0 x3 + 5 x4
+		int[] poly1 = {9,0,-3,0,5};
+		int p1highestDegree = poly1.length-1;
+		p1.setPoly(p1highestDegree, poly1);
+		printPolyEq(p1,1);	// 다항식 출력 전에 출력할 탭 수 = 1
+		
+		ArrListPoly p2 = new ArrListPoly();
+		// {2,0,4} = 2 x0 + 0 x1 + 4 x2
+		int[] poly2 = {2,0,4};
+		int p2highestDegree = poly2.length-1;
+		p2.setPoly(p2highestDegree, poly2);
+		printPolyEq(p2,3);	// 다항식 출력 전에 출력할 탭 수 = 3
+
+		ArrListPoly p3 = p1.sumPoly(p2);
+		printPolyEq(p3,1);	// 다항식 출력 전에 출력할 탭 수 = 1
+	}
+	public static void printPolyEq(ArrListPoly p, int nTabs) {
+		for(int i=0; i<nTabs; i++)
+			System.out.printf("\t");
+		for(int i=p.getHighestDegree(); i>=0; i--)
+			System.out.printf("%+d x%d\t", p.peek(i), i);
+		System.out.println();
+	}
+}

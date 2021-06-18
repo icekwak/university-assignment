@@ -1,0 +1,198 @@
+(Node class)
+public class Node <Key extends Comparable<Key>, Value> {
+	private Key id;
+	private Value name;
+	private Node left, right;
+	
+	public Node(Key newId, Value newName) { // 노드 생성자
+		id = newId;
+		name = newName;
+		left = right = null;
+	}
+	
+	// get과 set 메소드들
+	public Key getKey() {
+		return id;
+	}
+	public void setKey(Key newId) {
+		id = newId;
+	}
+	
+	public Value getValue() {
+		return name;
+	}
+	public void setValue(Value newName) {
+		name = newName;
+	}
+	
+	public Node getLeft() {
+		return left;
+	}
+	public void setLeft(Node newLeft) {
+		left = newLeft;
+	}
+	
+	public Node getRight() {
+		return right;
+	}
+	public void setRight(Node newRight) {
+		right = newRight;
+	}
+}
+
+-----------------------------------------------------------------------------------
+(BST class)
+public class BST <Key extends Comparable<Key>, Value> {
+	public Node root;
+	
+	public Node getRoot() {
+		return root;
+	}
+	
+	public BST(Key newId, Value newName) {
+		root = new Node(newId, newName);
+	}
+	
+	// get
+	public Value get(Key k) {
+		return get(root, k);
+	}
+	public Value get(Node n, Key k) {
+		if(n == null) // k를 발견 못함
+			return null;
+		
+		int t = n.getKey().compareTo(k);
+		if(t > 0) // if(K < 노드 n의 id) 왼쪽 서브트리 탐색
+			return get(n.getLeft(), k);
+		else if(t < 0) // if(K > 노드 n의 id) 오른쪽 서브트리 탐색
+			return get(n.getRight(), k);
+		else // k를 가진 노드 발견
+			return (Value)n.getValue();
+	}
+	
+	// put
+	public void put(Key k, Value v) {
+		root = put(root, k, v);
+	}
+	public Node put(Node n, Key k, Value v) {
+		if(n == null)
+			return new Node(k, v); // 삽입/추가 될 노드를 생성하고 리턴
+		
+		int t = n.getKey().compareTo(k);
+		if(t > 0) // if(K < 노드 n의 id) 왼쪽 서브트리 삽입
+			n.setLeft(put(n.getLeft(), k, v));
+		else if(t < 0) // if(K > 노드 n의 id) 오른쪽 서브트리 삽입
+			n.setRight(put(n.getRight(), k, v));
+		else // 노드 n의 name을 v로 갱신
+			n.setValue(v);
+		
+		return n;
+	}
+	
+	// min
+	public Key min() {
+		if(root == null)
+			return null;
+		
+		return (Key)min(root).getKey();
+	}
+	private Node min(Node n) {
+		if(n.getLeft() == null)
+			return n;
+		
+		return min(n.getLeft());
+	}
+	
+	// deleteMin
+	public void deleteMin() {
+		if(root == null)
+			System.out.println("empty 트리");
+		else
+			root = deleteMin(root);
+	}
+	private Node deleteMin(Node n) {
+		if(n.getLeft() == null) // if(n의 왼쪽 자식 == null) n의 오른쪽 자식 리턴
+			return n.getRight();
+		n.setLeft(deleteMin(n.getLeft())); // if(n의 오른쪽 자식 != null) n의 왼쪽 자식으로 재귀호출
+		
+		return n;
+	}
+	
+	// delete
+	public void delete(Key k) {
+		root = delete(root, k);
+	}
+	public Node delete(Node n, Key k) {
+		if(n == null)
+			return null;
+		
+		int t = n.getKey().compareTo(k);
+		if(t > 0) // if(k < 노드 n의 id) 왼쪽 자식으로 이동
+			n.setLeft(delete(n.getLeft(), k));
+		else if(t < 0) // if(k > 노드 n의 id) 오른쪽 자식으로 이동
+			n.setRight(delete(n.getRight(), k));
+		else { // 삭제할 노드 발견
+			if(n.getRight() == null)
+				return n.getLeft();
+			if(n.getLeft() == null)
+				return n.getRight();
+			
+			Node target = n;
+			n = min(target.getRight()); // 삭제할 노드 자리로 옮겨올 노드 찾아서 n이 가리키게 함
+			n.setRight(deleteMin(target.getRight()));
+			n.setLeft(target.getLeft());
+		}
+		return n;
+	}
+	
+	// [2] print
+	public void print() {
+		if(root != null)
+			print(root);
+		else
+			System.out.println("empty 트리");
+	}
+	public void print(Node n) { // 중위순회
+		if(n != null) {
+			print(n.getLeft()); // n의 왼쪽 서브트리 순회
+			System.out.print(n.getValue() + " "); // 노드n 방문
+			print(n.getRight()); // n의 오른쪽 서브트리 순회
+		}
+	}
+}
+
+------------------------------------------------------------------------------------------------------------------
+(BSTMain class)
+public class BSTMain {
+	public static void main(String[] args) {
+		// [1]
+		BST<Integer, Integer> bst1 = new BST<Integer, Integer>(60,60);
+		bst1.put(50,50);	bst1.put(70,70);	bst1.put(20,20);
+		bst1.put(35,35);	bst1.put(10,10);	bst1.put(45,45);
+		bst1.put(25,25);	bst1.put(40,40);	bst1.put(30,30);
+		
+		// [2] BST class에 print() 구현
+		
+		// [3]
+		bst1.print();
+		System.out.println();
+		
+		// [4]
+		System.out.println("Searching for 45 yields : " + bst1.get(45));
+		
+		// [5]
+		bst1.put(45, 99);
+		System.out.println("Searching for 45 yields : " + bst1.get(45));
+		
+		// [6]
+		System.out.println("Min value : " + bst1.min());
+		
+		// [7]
+		bst1.deleteMin();
+		System.out.println("Min value : " + bst1.min());
+		
+		// [8]
+		bst1.delete(25);	bst1.delete(35);	bst1.delete(45);
+		bst1.print();
+	}
+}

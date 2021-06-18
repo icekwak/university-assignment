@@ -1,0 +1,93 @@
+(Node class)
+public class Node <E> {
+	private E item;
+	private Node<E> next;
+	
+	public Node(E newItem, Node<E> node) {
+		item = newItem;
+		next = node;
+	}
+	
+	public E getItem() {
+		return item;
+	}
+	public void setItem(E newItem) {
+		item = newItem;
+	}
+	
+	public Node<E> getNext() {
+		return next;
+	}
+	public void setNext(Node<E> newNext) {
+		next = newNext;
+	}
+}
+
+----------------------------------------------------------------------------
+(ListQueue class)
+import java.util.NoSuchElementException;
+public class ListQueue <E> {
+	private Node<E> front, rear;
+	private int size;
+	
+	public ListQueue() {
+		front = rear = null;
+		size = 0;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public boolean isEmpty() {
+		return (size == 0);
+	}
+	
+	public void add(E newItem) {
+		Node newNode = new Node(newItem, null);
+		if(isEmpty())
+			front = newNode;
+		else
+			rear.setNext(newNode);
+		rear = newNode;
+		size++;
+	}
+	
+	public E remove() {
+		if(isEmpty())
+			throw new NoSuchElementException();
+		E frontItem = front.getItem();
+		front = front.getNext();
+		size--;
+		if(isEmpty())
+			rear = null;
+		return frontItem;
+	}
+	
+	public void print() {
+		Node p = front;
+		for(int i = 0; i < size; i++) {
+			System.out.printf("%-10s", p.getItem());
+			p = p.getNext();
+		}
+		System.out.println();
+	}
+}
+
+----------------------------------------------------------------------------------------------
+(ListQueueMain class)
+public class ListQueueMain {
+	public static void main(String[] args) {
+		ListQueue<String> queue = new ListQueue<String>();
+		queue.add("apple");		queue.add("orange");
+		queue.add("cherry");	queue.add("pear");		queue.print();
+		queue.remove();			queue.print();
+		queue.add("grape");		queue.print();
+		queue.remove();			queue.print();
+		queue.add("lemon");		queue.print();
+		queue.add("mango");		queue.print();
+		queue.add("lime");		queue.print();
+		queue.add("kiwi");		queue.print();
+		queue.remove();			queue.print();
+	}
+}

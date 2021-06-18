@@ -1,0 +1,71 @@
+(QuadProbing class)
+public class QuadProbing <K, V> {
+	private int N = 0, M = 13; // 항목수 N, 테이블 크기 M
+	private K[] a = (K[]) new Object[M]; // 해시테이블
+	private V[] d = (V[]) new Object[M]; // key 관련 데이터 저장
+	
+	private int hash(K key) { // 해시코드
+		return (key.hashCode() & 0x7fffffff) % M; // 나눗셈 함수
+	}
+	
+	public void put(K key, V data) { // 삽입 연산
+		int initialpos = hash(key); // 초기 위치
+		int i = initialpos, j = 1;
+		
+		do {
+			if(a[i] == null) { // 삽입 위치 발견
+				a[i] = key; // key를 해시테이블에 저장
+				d[i] = data; // key 관현 데이터 저장
+				N++;
+				return;
+			}
+			if(a[i].equals(key)) { // 이미 key 존재
+				d[i] = data; // data데이터만 갱신
+			}
+			i = (initialpos + j * j++) % M; // i = 다음 위치
+		}while(N < M);
+	}
+	
+	public V get(K key) { // 탐색 연산
+		int initialpos = hash(key);
+		int i = initialpos, j = 1;
+		
+		while(a[i] != null) { // a[i]가 empty가 아니면
+			if(a[i].equals(key))
+				return d[i]; // 탐색 성공
+			i = (initialpos + j * j++) % M; // i = 다음 위치
+		}
+		return null; // 탐새 실패
+	}
+	
+	public void print() { // 출력함수
+		for(int i = 0; i < M; i++)
+			System.out.format("\t%2d",i);
+		System.out.println();
+		
+		for(int j = 0; j < M; j++)
+			System.out.print("\t" + a[j]);
+		System.out.println();
+	}
+}
+
+----------------------------------------------------------------------------------------------------
+(QuadProbingTest class)
+public class QuadProbingTest {
+	public static void main(String[] args) {
+		QuadProbing<Integer,String> qp = new QuadProbing<Integer,String>();
+		
+		qp.put(25, "grape");	qp.put(37, "apple");
+		qp.put(18, "banana");	qp.put(55, "cherry");
+		qp.put(22, "mango");	qp.put(35, "lime");
+		qp.put(50, "orange");	qp.put(63, "watermelon");
+		
+		System.out.println("탐색 결과");
+		System.out.println("50의 data = " + qp.get(50));
+		System.out.println("63의 data = " + qp.get(63));
+		System.out.println();
+		
+		System.out.println("해시 테이블");
+		qp.print();
+	}
+}

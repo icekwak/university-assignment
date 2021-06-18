@@ -1,0 +1,94 @@
+(Node class)
+public class Node <E> {
+	private E item;
+	private Node<E> next;
+	
+	public Node(E newItem, Node<E> node) {
+		item = newItem;
+		next = node;
+	}
+	
+	public E getItem() {
+		return item;
+	}
+	public void setItem(E newItem) {
+		item = newItem;
+	}
+	
+	public Node<E> getNext() {
+		return next;
+	}
+	public void setNext(Node<E> newNext) {
+		next = newNext;
+	}
+}
+
+----------------------------------------------------------------------------------
+(ListStack class)
+import java.util.EmptyStackException;
+public class ListStack <E> {
+	private Node<E> top; //top 항목을 가진 Node 가리킴
+	private int size;	 //항목 수
+	
+	public ListStack() { //초기화 생성자
+		top = null;
+		size = 0;
+	}
+	
+	public int size() { //항목 수 리턴
+		return size;
+	}
+	
+	public boolean isEmpty() { //empty이면 true리턴
+		return size == 0;
+	}
+	
+	public E peek() { //top 항목 리턴
+		if(isEmpty())
+			throw new EmptyStackException();
+		return top.getItem();
+	}
+	
+	public void push(E newItem) { //push 연산
+		Node newNode = new Node(newItem, top); //앞부분에 삽입
+		top = newNode; //top => 새노드
+		size++;
+	}
+	
+	public E pop() { //pop 연산
+		if(isEmpty())
+			throw new EmptyStackException();
+		E topItem = top.getItem();
+		top = top.getNext();
+		size--;
+		return topItem;
+	}
+	
+	public void print() { //출력
+		Node t = top;
+		for(int i = 0; i < size; i++) {
+			System.out.print(t.getItem() + "\t");
+			t = t.getNext();
+		}
+		System.out.println();
+	}
+}
+
+-------------------------------------------------------------------------------------------------
+(ListStackMain class)
+public class ListStackMain {
+	public static void main(String[] args) {
+		ListStack<String> stack = new ListStack<String>();
+		
+		stack.push("apple");
+		stack.push("orange");
+		stack.push("cherry");
+		System.out.println(stack.peek());
+		stack.push("pear");
+		stack.print();
+		stack.pop();
+		System.out.println(stack.peek());
+		stack.push("grape");
+		stack.print();
+	}
+}

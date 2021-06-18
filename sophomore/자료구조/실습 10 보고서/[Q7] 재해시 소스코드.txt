@@ -1,0 +1,135 @@
+(Chaining class)
+public class Chaining <K, V> {
+	private int N = 0, M = 5; // 테이블에 저장된 키의 수 N, 테이블 크기 M
+	private Node[] a = new Node[M]; // 해시테이블
+	
+	public static class Node{ // Node 클래스
+		private Object key;
+		private Object data;
+		private Node next;
+		
+		public Node(Object newkey, Object newdata, Node ref) { // 생성자
+			key = newkey;
+			data = newdata;
+			next = ref;
+		}
+		
+		public Object getKey() {
+			return key;
+		}
+		
+		public Object getData() {
+			return data;
+		}
+	}
+	
+	private int hash(K key) { // 해시코드
+		return (key.hashCode() & 0x7fffffff) % M; // 나눗셈 연산
+	}
+	
+	public V get(K key) { // 탐색 연산
+		int i = hash(key);
+		
+		for(Node x = a[i]; x != null; x = x.next) { // 연결리스트 탐색
+			if(key.equals(x.key))
+				return (V) x.data; // 탐색 성공
+		}
+		return null; // 탐색 실패
+	}
+	
+	public void put(K key, V data) { // 삽입 연산
+		int i = hash(key);
+		
+		N++; // 테이블 의 저장된 키값 증가
+		// 적재율 계산
+		if((double)N / M > 0.75) { // 적재율 > 0.75
+			M *= 2; // 테이블 크기 2배 증가
+			rehash(); // 재해시
+		}
+		if((double)N / M < 0.25 && M/2 >= 5) { // 적재율 < 0.25
+			M /= 2; // 테이블 크기 절반 감소
+			rehash(); // 재해시
+		}
+		
+		for(Node x = a[i]; x != null; x = x.next) {
+			if(key.equals(x.key)) { // 이미 key 존재
+				x.data = data; // 데이터만 갱신
+				return;
+			}
+		}
+		a[i] = new Node(key,data,a[i]); // 연결리스트의 첫 노드 삽입
+	}
+	
+	public void print() { // 출력함수
+		for(int i=0; i < M; i++) {
+			System.out.print(i);
+			for(Node x = a[i]; x != null; x = x.next) // 연결리스트 탐색
+				System.out.format("-->[%d, %s]",x.getKey(),x.getData()); // 연결리스트 출력
+			System.out.println();
+		}
+	}
+	
+	private void rehash() { // 재해시
+		Node[] n = a; // 테이블 크기 늘어나기 전 해시테이블 저장
+		a = new Node[M]; // 해시테이블 크기 초기화
+		
+		System.out.println("[msg] 테이블 사이즈를 " + n.length + "에서 " + a.length + "로 변경합니다.");
+		
+		for(int i =0; i<n.length; i++) { // 기존 해시테이블를 새로운 해시테이블로 옮기기
+			Node d = n[i];
+			
+			if(d == null)
+				continue;
+			
+			int h = hash((K) d.key);
+			for(Node x = a[h]; x != null; x = x.next) {
+				if(d.getKey().equals(x.key)) { // 이미 key 존재
+					x.data = d.data; // 데이터만 갱신
+					return;
+				}
+			}
+			a[h] = new Node(d.key,d.data,a[h]);
+		}
+	}
+	
+	public void delete(K key) { // 삭제 연산
+		int i = hash(key);
+		
+		for(Node x = a[i]; x != null; x = x.next) { // 연결리스트 탐색
+			if(key.equals(x.key)) { 
+				a[i] = null;// 삭제
+				N--;
+				break;
+			}
+		}
+		
+		// 적재율 계산
+		if((double)N / M > 0.75) { // 적재율 > 0.75
+			M *= 2; // 테이블 크기 2배 증가
+			rehash(); // 재해시
+		}
+		if((double)N / M < 0.25 && M/2 >= 5) { // 적재율 < 0.25
+			M /= 2; // 테이블 크기 절반 감소
+			rehash(); // 재해시
+		}
+	}
+}
+
+---------------------------------------------------------------------------------------------------------------------------------
+(rehashTest class)
+public class rehashTest {
+	public static void main(String[] args) {
+		//Task1
+		Chaining<Integer, Integer> ch = new Chaining<Integer, Integer>();
+		System.out.println("=== rehash ===");
+		for(int i=0; i < 20; i++) 
+			ch.put(i,i);
+		ch.print();
+		
+		//Task2
+		System.out.println("=== delete ===");
+		for(int i=0; i < 20; i++) 
+			ch.delete(i);
+		ch.print();
+	}
+}

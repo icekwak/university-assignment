@@ -1,0 +1,123 @@
+(Edge class)
+public class Edge {
+	int adjvertex;	// 간선의 다른 쪽 끝 정점
+	int weight;		// 간선의 가중치
+	public Edge(int v, int wt) {
+		adjvertex = v;
+		weight = wt;
+	}
+}
+
+------------------------------------------------------------------------------
+(MyGraph class)
+import java.util.*;
+public class MyGraph {
+	public int[][] getAdjMatrixFromAdjList(List<Edge>[] lst){ // 인접리스트 -> 인접행렬
+		int N = lst.length;				// 정점 수
+		int[][] mat = new int[N][N];	// 인접행렬 저장 공간
+		for(int i = 0; i < N; i++) {
+			for(Edge e : lst[i])
+					mat[i][e.adjvertex] = e.weight;	// 가중치 값 저장
+		}
+		return mat;
+	}
+	
+	public List<Edge>[] getAdjListFromAdjMatrix(int[][] mat){ // 인접행렬 -> 인접리스트
+		int N = mat.length;				// 정점 수
+		List<Edge>[] lst = new List[N];	// 인접리스트 저장 공간
+		for(int i = 0; i < N; i++) {
+			lst[i] = new LinkedList<>();
+			for(int j = 0; j < N; j++) {
+				if(mat[i][j] != 0) { // 가중치 값이 있는 경우
+					Edge e = new Edge(j,mat[i][j]);
+					lst[i].add(e); // 인접리스트에 저장
+				}
+			}
+		}
+		return lst;
+	}
+	
+	public void print(int[][] mat) { // 인접행렬 출력
+		int N = mat.length; // 정점 수
+		System.out.println("AdjMatrix : ");
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++) {
+				System.out.print(mat[i][j]); // 가중치 출력
+				if(j < N-1)	// 쉼표 출력
+					System.out.print(", ");
+			}
+			System.out.println();
+		}
+	}
+	
+	public void print(List<Edge>[] lst) { // 인접리스트 출력
+		int N = lst.length; // 정점 수
+		System.out.println("AdjList : ");
+		for(int i = 0; i < N; i++) {
+			System.out.printf("[%d]",i);
+			for(Edge e : lst[i])
+				System.out.printf(" => %d(%d)",e.adjvertex,e.weight); // 정점(가중치) 출력
+			System.out.println();
+		}
+	}
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+(MyGraphTest class)
+import java.util.*;
+public class MyGeaphTest {
+	public static void main(String[] args) {
+		MyGraph G = new MyGraph();
+		int N = 8; // 정점 수
+		
+		// Task 1
+		System.out.println("Task 1");
+		List<Edge>[] lst = new List[N];
+		for(int i = 0; i < N; i++)
+			lst[i] = new LinkedList<>();
+		
+		lst[0].add(new Edge(1,1));	lst[0].add(new Edge(3,2));
+		
+		lst[1].add(new Edge(0,1));	lst[1].add(new Edge(2,4));
+		lst[1].add(new Edge(3,3));	lst[1].add(new Edge(4,1));
+		lst[1].add(new Edge(5,6));
+		
+		lst[2].add(new Edge(1,4));	lst[2].add(new Edge(5,1));
+		lst[2].add(new Edge(6,1));	lst[2].add(new Edge(7,2));
+		
+		lst[3].add(new Edge(0,2));	lst[3].add(new Edge(1,3));
+		lst[3].add(new Edge(4,5));
+		
+		lst[4].add(new Edge(1,1));	lst[4].add(new Edge(3,5));
+		lst[4].add(new Edge(6,2));
+		
+		lst[5].add(new Edge(1,6));	lst[5].add(new Edge(2,1));
+		lst[5].add(new Edge(7,9));
+		
+		lst[6].add(new Edge(2,1));	lst[6].add(new Edge(4,2));
+		lst[6].add(new Edge(7,1));
+		
+		lst[7].add(new Edge(2,2));	lst[7].add(new Edge(5,9));
+		lst[7].add(new Edge(6,1));
+		G.print(lst);
+		
+		int[][] mat_data = G.getAdjMatrixFromAdjList(lst);
+		G.print(mat_data); // 인접행렬로 변환 후 출력
+		System.out.println();
+		
+		// Task 2
+		System.out.println("Task 2");
+		int[][] mat = {	{0,1,0,2,0,0,0,0},
+						{1,0,4,3,1,6,0,0},
+						{0,4,0,0,0,1,1,2},
+						{2,3,0,0,5,0,0,0},
+						{0,1,0,5,0,0,2,0},
+						{0,6,1,0,0,0,0,9},
+						{0,0,1,0,2,0,0,1},
+						{0,0,2,0,0,9,1,0} };
+		G.print(mat);
+		
+		List<Edge>[] lst_data = G.getAdjListFromAdjMatrix(mat);
+		G.print(lst_data); // 인접리스트로 변환 후 출력
+	}
+}

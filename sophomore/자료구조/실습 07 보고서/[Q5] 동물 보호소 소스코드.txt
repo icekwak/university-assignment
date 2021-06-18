@@ -1,0 +1,171 @@
+(Node class)
+public class Node <E> {
+	private E Animal;
+	private Node<E> next;
+	
+	public Node(E newAnimal, Node<E> node) {
+		Animal = newAnimal;
+		next = node;
+	}
+	
+	public E getAnimal() {
+		return Animal;
+	}
+	public void setAnimal(E newAnimal) {
+		Animal = newAnimal;
+	}
+	
+	public Node<E> getNext() {
+		return next;
+	}
+	public void setNext(Node<E> newNext) {
+		next = newNext;
+	}
+}
+
+----------------------------------------------------------------------------------------
+(AnimalShelter class)
+import java.util.NoSuchElementException;
+public class AnimalShelter {
+	private Node<String> front, rear;
+	private int size;
+	
+	public AnimalShelter() {
+		front = rear = null;
+		size = 0;
+	}
+	
+	public int size() {
+		return size;
+	}
+	
+	public boolean isEmpty() {
+		return (size == 0);
+	}
+	
+	public void enter(String newAnimal) { // 동물 추가
+		Node newNode = new Node(newAnimal, null);
+		if(isEmpty())
+			front = newNode;
+		else
+			rear.setNext(newNode);
+		rear = newNode;
+		size++;
+	}
+	
+	public String adoptAny() { // 가장 먼저 들어온 동물을 입양 보냄
+		if(isEmpty())
+			throw new NoSuchElementException();
+		String frontAnimal = front.getAnimal();
+		front = front.getNext();
+		size--;
+		if(isEmpty())
+			rear = null;
+		return frontAnimal;
+	}
+	
+	public String adoptDog() { // 개 선택
+		if(isEmpty())
+			throw new NoSuchElementException();
+		
+		String frontAnimal;
+		Node CatData = null;
+		while(true) {
+			frontAnimal = front.getAnimal();
+			if(frontAnimal.contains("Dog")) { // 개일 때
+				front = front.getNext();
+				size--;
+				if(isEmpty())
+					rear = null;
+				break;
+			}
+			else { // 고양이일 때
+				CatData = new Node(frontAnimal,CatData); // 고양이를 임시 보호소에 저장
+				adoptAny(); // 고양이를 임시 보호소로 옮김
+			}
+		}
+		while(CatData != null) { // 임시 보호소에 고양이가 있는지 확인
+			front = new Node(CatData.getAnimal(), front);
+			size++;
+			CatData =CatData.getNext();
+		}
+		return frontAnimal;
+	}
+	
+	public String adoptCat() { // 고양이 선택
+		if(isEmpty())
+			throw new NoSuchElementException();
+		
+		String frontAnimal;
+		Node DogData = null;
+		while(true) {
+			frontAnimal = front.getAnimal();
+			if(frontAnimal.contains("Cat")) { // 고양이일 때
+				front = front.getNext();
+				size--;
+				if(isEmpty())
+					rear = null;
+				break;
+			}
+			else { // 개일 때
+				DogData = new Node(frontAnimal,DogData); // 개를 임시 보호소에 저장
+				adoptAny(); // 개를 임시 보호소로 옮김
+			}
+		}
+		while(DogData != null) { // 임시 보호소에 개가 있는지 확인
+			front = new Node(DogData.getAnimal(), front);
+			size++;
+			DogData = DogData.getNext();
+		}
+		return frontAnimal;
+	}
+	
+	public void print() { // 동물 리스트 출력
+		Node p = front;
+		for(int i = 0; i < size; i++) {
+			System.out.printf("%-12s||  ", p.getAnimal());
+			p = p.getNext();
+		}
+		System.out.println();
+	}
+}
+
+---------------------------------------------------------------------------------------------------------------
+(AnimalShelterMain)
+public class AnimalShelterMain {
+	public static void main(String[] args) {
+		AnimalShelter Animal = new AnimalShelter();
+		
+		//Task1
+		System.out.println("== 동물 보호소 리스트 ==");
+		Animal.enter("Brad (Dog)");		Animal.enter("Tom (Dog)");
+		Animal.enter("Cindy (Cat)");	Animal.enter("Jake (Dog)");
+		Animal.enter("Jenny (Cat)");	Animal.enter("Alex (Dog)");
+		Animal.enter("Lucy (Cat)");		Animal.print();
+		System.out.println();
+		
+		//Task2 Brad (Dog)
+		System.out.println("[" + Animal.adoptAny() + "입양 성공!]");
+		Animal.print();
+		System.out.println();
+		
+		//Task3 Cindy (Cat)
+		System.out.println("[" + Animal.adoptCat() + "입양 성공!]");
+		Animal.print();
+		System.out.println();
+		
+		//Task4 Tom (Dog)
+		System.out.println("[" + Animal.adoptDog() + "입양 성공!]");
+		Animal.print();
+		System.out.println();
+		
+		//Task5 Jake (Dog)
+		System.out.println("[" + Animal.adoptAny() + "입양 성공!]");
+		Animal.print();
+		System.out.println();
+		
+		//Task6 Alex (Dog)
+		System.out.println("[" + Animal.adoptDog() + "입양 성공!]");
+		Animal.print();
+	}
+}

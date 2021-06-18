@@ -1,0 +1,59 @@
+(GenData class)
+import java.util.*;
+public class GenData {
+	public Comparable[] getRandIntArr(int N, int min, int max) {
+		Comparable[] arr = new Comparable[N];
+		Random rand = new Random();
+		
+		if(N < 2) { // N이 2보다 작으면 빈 배열 리턴
+			System.out.println("N이 2보다 작은 값이 입력됨.");
+			return arr;
+		}
+		
+		for(int i = 0; i < N; i++)
+			arr[i] = (rand.nextInt(max) + min); // min <= arr[i] <= max
+		
+		return arr;
+	}
+}
+
+------------------------------------------------------------------------------------------------------
+(Insertion class)
+import java.lang.Comparable;
+public class Insertion {
+	public static void sort(Comparable[] a) {
+		int N = a.length;
+		for(int i = 1; i < N; i++) { // i는 현재 원소의 인덱스
+			for(int j = i; j > 0; j--) { // 현재 원소를 정렬된 앞부분에 삽입
+				if(isless(a[j], a[j-1]))
+					swap(a,j,j-1);
+				else
+					break;
+			}
+		}
+	}
+	
+	private static boolean isless(Comparable i, Comparable j) { // 키 비교
+		return (i.compareTo(j) < 0);
+	}
+	
+	private static void swap(Comparable[] a, int i, int j) { // 원소 교환
+		Comparable temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+	}
+}
+
+------------------------------------------------------------------------------------------------
+(InsertionTest class)
+import java.util.*;
+public class InsertionTest {
+	public static void main(String[] args) {
+		GenData gd = new GenData();
+		Comparable[] nums = gd.getRandIntArr(10, 0, 100);
+		
+		System.out.println("Before : " + Arrays.toString(nums));
+		Insertion.sort(nums);
+		System.out.println("After  : " + Arrays.toString(nums));
+	}
+}

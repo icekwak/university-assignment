@@ -1,0 +1,133 @@
+(ArrayStack class)
+import java.util.EmptyStackException;
+public class ArrayStack <E> {
+	private E s[]; 		//스택을 위한 배열
+	private int top; 	//스택의 top 항목의 배열 원소 인덱스
+	
+	public ArrayStack() { //크기가 1인 배열 초기화 생성자
+		s = (E[]) new Object[1];
+		top = -1;
+	}
+	
+	public int size() { //항목 수 리턴
+		return top+1;
+	}
+	
+	public boolean isEmpty() { //empty이면 true리턴
+		return (top == -1);
+	}
+	
+	public E peek() { //top 항목 리턴
+		if(isEmpty())
+			throw new EmptyStackException();
+		return s[top];
+	}
+	
+	public void push(E newItem) { 	//push 연산
+		if(size() == s.length)
+			resize(2*s.length);		//크기 2배로 확장
+		s[++top] = newItem;			//새 항목 push
+	}
+	
+	public E pop() { //pop 연산
+		if(isEmpty())
+			throw new EmptyStackException();
+		E item = s[top];
+		s[top--] = null;
+		if(size() > 0 && size() == s.length/4)
+			resize(s.length/2); //크기 1/2로 축소
+		return item;
+	}
+	
+	private void resize(int newSize) { //배열크기 조절
+		Object[] t = new Object[newSize];	
+		for(int i=0; i<size(); i++)
+			t[i] = s[i];				
+		s =  (E[]) t;					
+	}
+	
+	public void print() { //출력
+		for(int i=0; i<s.length; i++) {
+			if(i < size())
+				System.out.printf(s[i] + "\t");
+			else System.out.printf("null\t");
+		}
+		System.out.println();
+	}
+	
+	public Boolean checkPalindrome(String s) {
+		ArrayStack<Character> st = new ArrayStack<Character>();
+		boolean bool = false;
+		if(s.length() == 1){ // 문자열 길이 1일 때는 비교 대상이 자신이기 때문에 바로 true
+			bool = true;
+		}
+		else if(s.length() % 2 == 0) { //짝수
+			for(int i = 0; i < s.length()/2; i++) { //절반 push
+				st.push(s.charAt(i));
+			}
+			
+			for(int j = s.length()/2; j < s.length(); j++) { //남은 절반 pop
+				if(st.peek() == s.charAt(j)) { //대칭 o
+					st.pop();
+					bool = true;
+				}
+				else { //대칭 x
+					bool = false;
+					break;
+				}
+			}
+		}
+		else { //홀수
+			for(int i = 0; i < (s.length()-1)/2; i++) { //가운데 값 전까지  push
+				st.push(s.charAt(i));
+			}
+			
+			for(int j = ((s.length()-1)/2)+1; j < s.length(); j++) { //가운데 값 버리고 절반 pop
+				if(st.peek() == s.charAt(j)) { //대칭 o
+					st.pop();
+					bool = true;
+				}
+				else { //대칭 x
+					bool = false;
+					break;
+				}	
+			}
+		}
+		return bool;
+	}
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+(main4 class)
+public class main4 {
+	public static void main(String[] args) {
+		System.out.println("\t-- 회문 검사 --");
+		System.out.println("-- 회문이면 true, 아니면 false --");
+		System.out.println();
+		
+		//task1
+		ArrayStack<Character> st1 = new ArrayStack<Character>();
+		String s1 = "redivider";
+		System.out.println("[1]" + s1 + "이(가) 회문인가? " + st1.checkPalindrome(s1));
+		
+		//task2
+		ArrayStack<Character> st2 = new ArrayStack<Character>();
+		String s2 = "redder";
+		System.out.println("[2]" + s2 + "이(가) 회문인가? " + st2.checkPalindrome(s2));
+		
+		//task3
+		ArrayStack<Character> st3 = new ArrayStack<Character>();
+		String s3 = "a";
+		System.out.println("[3]" + s3 + "이(가) 회문인가? " + st3.checkPalindrome(s3));
+		
+		//task4
+		ArrayStack<Character> st4 = new ArrayStack<Character>();
+		String s4 = "abbd";
+		System.out.println("[4]" + s4 + "이(가) 회문인가? " + st4.checkPalindrome(s4));
+		
+		//task5
+		ArrayStack<Character> st5 = new ArrayStack<Character>();
+		String s5 = "koxko";
+		System.out.println("[5]" + s5 + "이(가) 회문인가? " + st5.checkPalindrome(s5));
+	}
+}

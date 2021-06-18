@@ -1,0 +1,22 @@
+import numpy as np
+#NLC를 사용하여 2차원배열생성
+row, col = 3,4
+li = [[kk+1+jj*col for kk in range(col)] for jj in range(row)]
+print(li)
+np1 = np.array(li)
+
+#부분복사 방식
+np2 = np.zeros(shape=(np1.shape[0]+2,np1.shape[1]+2))
+np2[1:-1,1:-1] = np1
+np2[0] = np2[1]
+np2[-1] = np2[-2]
+np2[:,0] = np2[:,1]
+np2[:,-1] = np2[:,-2]
+print(np2)
+
+#행과 열 결합 방식(colume_stack, row_stack)
+np1 = np.column_stack((np1[:,0],np1))
+np1 = np.column_stack((np1,np1[:,-1]))
+np1 = np.row_stack((np1[0],np1))
+np1 = np.row_stack((np1,np1[-1]))
+print(np1)

@@ -1,0 +1,138 @@
+(ArrayStack class)
+import java.util.EmptyStackException;
+public class ArrayStack <E> {
+	private E s[]; 		//스택을 위한 배열
+	private int top; 	//스택의 top 항목의 배열 원소 인덱스
+	
+	public ArrayStack() { //크기가 1인 배열 초기화 생성자
+		s = (E[]) new Object[1];
+		top = -1;
+	}
+	
+	public int size() { //항목 수 리턴
+		return top+1;
+	}
+	
+	public boolean isEmpty() { //empty이면 true리턴
+		return (top == -1);
+	}
+	
+	public E peek() { //top 항목 리턴
+		if(isEmpty())
+			throw new EmptyStackException();
+		return s[top];
+	}
+	
+	public void push(E newItem) { 	//push 연산
+		if(size() == s.length)
+			resize(2*s.length);		//크기 2배로 확장
+		s[++top] = newItem;			//새 항목 push
+	}
+	
+	public E pop() { //pop 연산
+		if(isEmpty())
+			throw new EmptyStackException();
+		E item = s[top];
+		s[top--] = null;
+		if(size() > 0 && size() == s.length/4)
+			resize(s.length/2); //크기 1/2로 축소
+		return item;
+	}
+	
+	private void resize(int newSize) { //배열크기 조절
+		Object[] t = new Object[newSize];	
+		for(int i=0; i<size(); i++)
+			t[i] = s[i];				
+		s =  (E[]) t;					
+	}
+	
+	public void print() { //출력
+		for(int i=0; i<s.length; i++) {
+			if(i < size())
+				System.out.printf(s[i] + "\t");
+			else System.out.printf("null\t");
+		}
+		System.out.println();
+	}
+	
+	public String getPostEq(String s) {
+		ArrayStack<Character> st = new ArrayStack<Character>();
+		String stsum = "";
+		char ch;
+		
+		for(int i = 0; i < s.length(); i++) {
+			ch = s.charAt(i);
+			
+			if(ch >= 'A' && ch <= 'Z') // 피연산자
+				stsum += ch;
+			
+			else { // 연산자, 괄호
+				switch(ch) {
+				case '(':
+					st.push(ch);
+					break;
+					
+				case ')':
+					char p;
+					while(true) {
+						p = st.pop();
+						if(p == '(')
+							break;
+						stsum += p;
+					}
+					break;
+				
+				case '+':
+				case '-':
+					while(!st.isEmpty() && (st.peek() == '*' || st.peek() == '/' ||
+											st.peek() == '+' || st.peek() == '-')) { //우선순위
+						stsum += st.pop();
+					}
+					st.push(ch);
+					break;
+				
+				case '*':
+				case '/':
+					while(!st.isEmpty() && (st.peek() == '*' || st.peek() == '/')) { //우선순위
+						stsum += st.pop();
+					}
+					st.push(ch);
+					break;
+				}
+			}
+		}
+		while(!st.isEmpty())
+			stsum += st.pop();
+		
+		return stsum;
+	}
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+(main5 class)
+public class main5 {
+	public static void main(String[] args) {
+		System.out.println("-- 중위표기법 => 후위표기법 --");
+		System.out.println();
+		
+		//task1
+		ArrayStack<Character> st1 = new ArrayStack<Character>();
+		String s1 = "A*(B+C/D)";
+		System.out.println("중의표기법: " + s1);
+		System.out.println("후위표기법: " + st1.getPostEq(s1));
+		System.out.println();
+		
+		//task2
+		ArrayStack<Character> st2 = new ArrayStack<Character>();
+		String s2 = "(A+B)*(C-D)";
+		System.out.println("중의표기법: " + s2);
+		System.out.println("후위표기법: " + st2.getPostEq(s2));
+		System.out.println();
+		
+		//task3
+		ArrayStack<Character> st3 = new ArrayStack<Character>();
+		String s3 = "A+B+C*(B+C*D)/D";
+		System.out.println("중의표기법: " + s3);
+		System.out.println("후위표기법: " + st3.getPostEq(s3));
+	}
+}
