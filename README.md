@@ -1,59 +1,179 @@
-### 1학년(freshman)
+# 전공과목
 
-|구분|학점|과목|비고|
-|:---:|:---:|:---|:---|
-|전공|3|자바프로그래밍Ⅰ|Java, Ecilpse|
-|전공|3|자바프로그래밍Ⅱ|Java, Ecilpse|
-|기초|3|창의코딩파이썬|Python|
-|기초|1|디지털스마트워크||
-|기초|2|발표와토론||
-|기초|2|읽기와쓰기||
-|기초|3|대학영어2||
-|기초|3|일어1||
-|교양|1|한림퍼스트원||
-|교양|3|중국의문화와예술||
-|교양|3|기업가정신과창업||
-|교양|3|스포츠와인성함양||
-|소양|1|오디세이세미나1||
-|소양|1|글로벌문화의이해2||
-|소양|1|스포츠-축구||
+<table>
+  <thead>
+    <tr>
+      <th colspan="2">1학년</th>
+      <th colspan="2">2학년</th>
+      <th colspan="2">3학년</th>
+      <th colspan="2">4학년</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>유헬스기초프로그래밍1</td>
+      <td>유헬스기초프로그래밍2</td>
+      <td>이산구조론</td>
+      <td>선형대수</td>
+      <td>인공지능</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>논리설계및실험</td>
+      <td>컴퓨터구조</td>
+      <td>운영체제</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>자료구조</td>
+      <td>알고리즘</td>
+      <td>웹서버구축</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>C프로그래밍</td>
+      <td>C++프로그래밍</td>
+      <td>웹프로그래밍</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>데이터사이언스기초</td>
+      <td>데이터베이스</td>
+      <td>데이터베이스시스템</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>파이썬과학프로그래밍기초</td>
+      <td>VR/AR/게임제작기초</td>
+      <td>캡스톤디자인</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>소프트웨어세미나1</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>소프트웨어세미나2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
+# 교양과목
 
----
-### 2학년(sophomore)
-
-|구분|학점|과목|비고|
-|:---:|:---:|:---|:---|
-|전공|3|이산구조론||
-|전공|3|선형대수|C, Python, VisualStudio, Anaconda|
-|전공|3|자료구조|Java, Eclipse|
-|전공|3|알고리즘|Java, Eclipse|
-|전공|3|C프로그래밍|C, VisualStudio|
-|전공|3|C++프로그래밍|C++, VisualStudioCode|
-|전공|3|논리설계및실험|ProteusDesignSuite|
-|전공|3|컴퓨터구조|assembly, QtSPIM|
-|전공|3|데이터사이언스기초|R, RStudio|
-|전공|3|데이터베이스|MSSQL|
-|전공|3|파이썬과학프로그래밍기초|Python, Trinket|
-|전공|3|VR/AR/게임제작기초|Unity, C#|
-|소양|1|오디세이세미나2(리더십과 기업가정신)||
-
----
-### 3학년(junior)
-
-|구분|학점|과목|비고|
-|:---:|:---:|:---|:---|
-|전공|3|웹프로그래밍|HTML5, CSS3, JavaScript, jQuery, VisualStudioCode|
-|전공|3|웹서버구축|JSP, MySQL, Eclipse|
-|전공|3|데이터베이스시스템|MySQL|
-|전공|3|운영체제|C, Xshell_7|
-|전공|3|인공지능|Python, JupyterLab|
-|전공|3|캡스톤디자인||
-|전공|1|소프트웨어세미나1||
-|전공|1|소프트웨어세미나2||
-
----
-### 4학년(senior)
-
-|구분|학점|과목|비고|
-|:---:|:---:|:---|:---|
+<table>
+  <thead>
+    <tr>
+      <th colspan="2">1학년</th>
+      <th colspan="2">2학년</th>
+      <th colspan="2">3학년</th>
+      <th colspan="2">4학년</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>기업가정신과창업</td>
+      <td>중국의문화와예술</td>
+      <td>오디세이세미나2(리더십과 기업가정신)</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>대학영어2</td>
+      <td>대학영어2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>발표와토론</td>
+      <td>읽기와쓰기</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>스포츠와인성함양</td>
+      <td>스포츠-축구</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>창의코딩파이썬</td>
+      <td>디지털스마트워크</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>오디세이세미나1</td>
+      <td>글로벌문화의이해2</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>한림퍼스트원</td>
+      <td>일어1</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
