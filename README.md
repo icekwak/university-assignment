@@ -16,7 +16,7 @@
       <td>이산구조론</td>
       <td><a href="https://github.com/icekwak/university-assignment/tree/main/2%ED%95%99%EB%85%84/%EC%84%A0%ED%98%95%EB%8C%80%EC%88%98">선형대수</a></td>
       <td><a href="https://github.com/icekwak/university-assignment/tree/main/3%ED%95%99%EB%85%84/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5">인공지능</a></td>
-      <td><a href="#">컴파일러구성</a></td>
+      <td><a href="#">네트워크보안</a></td>
       <td></td>
       <td></td>
     </tr>
